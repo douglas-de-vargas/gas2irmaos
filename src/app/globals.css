@@ -33,6 +33,7 @@ main {
 #img img {
   z-index: 1;
   width: 300px;
+  height: auto;
 }
 
 #sec1 {
@@ -49,7 +50,12 @@ main {
 #iso {
   display: flex;
   align-items: flex-start;
-  gap: .5rem;
+  gap: 0.5rem;
+}
+
+.produto_card img {
+  width: 200px;
+  height: auto;
 }
 
 form {
@@ -85,7 +91,7 @@ textarea {
 
 input::placeholder,
 textarea::placeholder,
-	select {
+select {
   color: rgba(0, 0, 0, 0.6);
 }
 

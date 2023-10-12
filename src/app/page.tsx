@@ -1,5 +1,5 @@
 // Next
-import Link from "next/link";
+import Image from "next/image";
 
 // Componentes
 import Button from "@/components/Button/Button";
@@ -7,16 +7,21 @@ import FormCarrinho from "@/components/FormCarrinho/FormCarrinho";
 import FormDados from "@/components/FormDados/FormDados";
 
 // icons
-import {BsArrowRight} from 'react-icons/bs'
+import { BsArrowRight } from "react-icons/bs";
 
 export default function SuperGas() {
   return (
     <>
-    <div>
-      <div id="img">
-        <img src="/image1.png" />
-      </div>
-      <p id="sec1">
+      <div>
+        <div id="img">
+          <Image
+            src={"/image1.png"}
+            alt={"SuperGas"}
+            width={1}
+            height={1}
+          />
+        </div>
+        <p id="sec1">
           <span style={{ fontWeight: "bold" }}>Bem-vindo(a)</span>, você está na
           central de vendas{" "}
           <span
@@ -52,7 +57,7 @@ export default function SuperGas() {
           <br />• O gás chegará na sua casa em poucos minutos.
         </p>
       </div>
-      <Button to={"/pedido"} Icon={<BsArrowRight/>} text={"Avançar"} />
+      <Button to={"/pedido"} Icon={<BsArrowRight />} text={"Avançar"} />
     </>
   );
 }

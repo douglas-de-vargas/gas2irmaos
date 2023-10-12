@@ -1,14 +1,27 @@
 "use client";
-// react
-import react, { useState, useEffect } from "react";
 
+//next
+import Image from "next/image"
+
+//React
+import React, { useState, useEffect } from "react";
+
+//hooks
 import { useAppState } from "@/hooks/context";
 
 //icons
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 
-// dados
-const produto = [
+interface Product {
+  image: string;
+  weight: string;
+  name: string;
+  description: string;
+  price: number;
+  id: number;
+}
+
+const products: Product[] = [
   {
     image: "/agua20l.png",
     weight: "20 Lts",
@@ -60,15 +73,17 @@ const produto = [
 ];
 
 export default function Loja() {
-  const [quantidade, setQuantidade] = useState({});
+  const [quantidade, setQuantidade] = useState<{ [key: number]: number }>({});
 
-  const { valorTotal, setValorTotal } = useAppState();
+  interface AppState {
+    valorTotal: number;
+    setValorTotal: (value: number) => void;
+  }
 
-  useEffect(() => {
-    alert("carrinho: " + valorTotal);
-  }, [valorTotal]);
+const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
 
-  const decrementQuantidade = (id) => {
+
+  const decrementQuantidade = (id: number) => {
     if (quantidade[id] > 0) {
       setQuantidade((prevQuantidade) => ({
         ...prevQuantidade,
@@ -77,7 +92,7 @@ export default function Loja() {
     }
   };
 
-  const incrementarQuantidade = (id) => {
+  const incrementarQuantidade = (id: number) => {
     setQuantidade((prevQuantidade) => ({
       ...prevQuantidade,
       [id]: (prevQuantidade[id] || 0) + 1,
@@ -87,8 +102,11 @@ export default function Loja() {
   useEffect(() => {
     let newTotal = 0;
     for (const id in quantidade) {
-      newTotal +=
-        quantidade[id] * produto.find((item) => item.id === parseInt(id)).price;
+      if (quantidade.hasOwnProperty(id)) {
+        newTotal +=
+          quantidade[id] *
+          (products.find((item) => item.id === parseInt(id))?.price || 0);
+      }
     }
     setValorTotal(newTotal);
   }, [quantidade]);
@@ -102,9 +120,10 @@ export default function Loja() {
           gap: "1rem",
         }}
       >
-        {produto.map((produto) => (
+        {products.map((produto) => (
           <div
             key={produto.id}
+            className="produto_card"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -125,14 +144,19 @@ export default function Loja() {
                 gap: ".5rem",
               }}
             >
-              <img src={produto.image} alt={produto.name} width={200} />
+              <Image
+              src={produto.image}
+              alt={produto.name}
+              width={1}
+              height={1}
+              />
               <h2>{produto.name}</h2>
               <p>{produto.description}</p>
               <p>Peso: {produto.weight}</p>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "space between",
                   alignItems: "center",
                   fontSize: "2rem",
                 }}
@@ -158,13 +182,17 @@ export default function Loja() {
                   fontSize: "1.5rem",
                 }}
               >
-                {(quantidade[produto.id] > 0
-                  ? produto.price * quantidade[produto.id]
-                  : produto.price
-                ).toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
+                {quantidade[produto.id] > 0
+                  ? (
+                      produto.price * (quantidade[produto.id] || 1)
+                    ).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })
+                  : produto.price.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
               </div>
             </div>
           </div>

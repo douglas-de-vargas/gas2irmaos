@@ -1,10 +1,16 @@
-import "./globals.css";
+// Nextjs
 import type { Metadata } from "next";
 
-// hooks
+// ReactJs
+import * as React from "react";
+
+// Hooks
 import { AppStateProvider } from "@/hooks/context";
 
-// componentes
+// Styles
+import "./globals.css";
+
+// Componentes
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
@@ -13,11 +19,11 @@ export const metadata: Metadata = {
   description: "Peça seu gás",
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <AppStateProvider>
       <html lang="PT-BR">

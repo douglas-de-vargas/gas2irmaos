@@ -1,5 +1,5 @@
 // Next
-import Link from "next/link";
+import Image from "next/image";
 
 // Components
 import Loja from "@/components/FormCarrinho/FormCarrinho";
@@ -13,10 +13,18 @@ export default function Pedido() {
   return (
     <>
       <h2>Produtos</h2>
-      <div id="iso" style={{
-      	width: '300px',
-      }}>
-        <img width="80px" src="/iso.png" />
+      <div
+        id="iso"
+        style={{
+          width: "300px",
+        }}
+      >
+        <Image
+          src={"/iso.png"}
+          alt={"imagem"}
+          width={1}
+          height={1}
+        />
         <p>
           Nossos produtos são certificados pelo ISO 9001, garantia e segurança
           para sua família!
@@ -28,7 +36,11 @@ export default function Pedido() {
         Icon={<AiOutlineShoppingCart />}
         text={"Avançar"}
       />
-      <img src="/image2.png" width="300px" />
+      <Image
+      src={"/image2.png"}
+      alt={"imagem"}
+            width={1}
+            height={1}/>
     </>
   );
 }

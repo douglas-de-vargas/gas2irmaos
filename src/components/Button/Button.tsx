@@ -1,22 +1,18 @@
-import type { IconType } from "react-icons";
+import React from "react";
+import Link from "next/link";
 
-interface iButtonProps {
+interface ButtonProps {
   to: string;
-  Icon?: IconType;
+  Icon: any;
   text: string;
 }
 
-export default function Button(props: iButtonProps)
-	{ 
-		const {to, Icon, text } = props
+const Button: React.FC<ButtonProps> = ({ to, Icon, text }) => {
   return (
-    <>
-      <a href={to}>
-        <button className="button">
-          {Icon}
-          {text}
-        </button>
-      </a>
-    </>
+    <Link href={to} className={"button"}>
+      {Icon} {text}
+    </Link>
   );
-}
+};
+
+export default Button;

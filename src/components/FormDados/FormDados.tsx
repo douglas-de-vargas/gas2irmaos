@@ -1,11 +1,7 @@
 "use client";
 
-// React Hooks
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-
 import { useAppState } from "@/hooks/context";
-
-// React Icons
 import { BsWhatsapp } from "react-icons/bs";
 import { FiAlertTriangle } from "react-icons/fi";
 
@@ -25,7 +21,7 @@ export default function FormDados() {
   const myphone: number = 5551981877876;
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement |  HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setClientData((prevData) => ({
@@ -52,27 +48,30 @@ export default function FormDados() {
     window.open(whatsAppLink, "_blank");
   };
 
-  // clientData.city
-
   useEffect(() => {
     const selectElement = document.getElementById("city");
-    if (clientData.city !== "") {
-      selectElement.style.color = "black";
+    if (selectElement) {
+      if (clientData.city !== "") {
+        selectElement.style.color = "black";
+      }
     }
   }, [clientData.city]);
 
   useEffect(() => {
     const selectElement = document.getElementById("pay");
-    if (clientData.pay !== "") {
-      selectElement.style.color = "black";
+    if (selectElement) {
+      if (clientData.pay !== "") {
+        selectElement.style.color = "black";
+      }
     }
   }, [clientData.pay]);
 
-  const { valorTotal, setValorTotal } = useAppState();
+  interface AppState {
+    valorTotal: number;
+    setValorTotal: (value: number) => void;
+  }
 
-  useEffect(() => {
-    alert("dados: " + valorTotal);
-  }, [valorTotal]);
+  const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
 
   return (
     <>
@@ -165,7 +164,6 @@ export default function FormDados() {
           Cidade:
           <br />
           <select
-            type="select"
             id="city"
             name="city"
             value={clientData.city}
@@ -183,7 +181,6 @@ export default function FormDados() {
           Forma de pagamento:
           <br />
           <select
-            type="select"
             id="pay"
             name="pay"
             value={clientData.pay}

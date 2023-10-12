@@ -1,14 +1,19 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import * as React from "react";
 
-const AppValorContext = createContext();
+const AppValorContext = React.createContext(0);
 
-export const useAppState = () => {
-  return useContext(AppValorContext);
+type AppState = {
+  valorTotal: number;
+  setValorTotal: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const AppStateProvider = ({ children }) => {
-  const [valorTotal, setValorTotal] = useState(0);
+export const useAppState = () => {
+  return React.useContext(AppValorContext);
+};
+
+export const AppStateProvider: React.FC = ({ children }) => {
+  const [valorTotal, setValorTotal] = React.useState(0);
 
   return (
     <AppValorContext.Provider value={{ valorTotal, setValorTotal }}>
