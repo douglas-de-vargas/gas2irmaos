@@ -8,6 +8,10 @@
   --primary: #d33100;
 }
 
+img {
+	height: auto;
+}
+
 a {
   text-decoration: none;
 }
@@ -33,7 +37,6 @@ main {
 #img img {
   z-index: 1;
   width: 300px;
-  height: auto;
 }
 
 #sec1 {
@@ -55,7 +58,6 @@ main {
 
 .produto_card img {
   width: 200px;
-  height: auto;
 }
 
 form {

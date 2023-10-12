@@ -17,8 +17,8 @@ export default function SuperGas() {
           <Image
             src={"/image1.png"}
             alt={"SuperGas"}
-            width={1}
-            height={1}
+            width={500}
+            height={500}
           />
         </div>
         <p id="sec1">

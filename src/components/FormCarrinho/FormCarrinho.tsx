@@ -1,7 +1,7 @@
 "use client";
 
 //next
-import Image from "next/image"
+import Image from "next/image";
 
 //React
 import React, { useState, useEffect } from "react";
@@ -73,15 +73,14 @@ const products: Product[] = [
 ];
 
 export default function Loja() {
-  const [quantidade, setQuantidade] = useState<{ [key: number]: number }>({});
+  // const [quantidade, setQuantidade] = useState<{ [key: number]: number }>({});
 
-  interface AppState {
+  interface IAppState {
     valorTotal: number;
     setValorTotal: (value: number) => void;
   }
 
-const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
-
+  const { valorTotal, setValorTotal, quantidade, setQuantidade } = useAppState() as unknown as IAppState;
 
   const decrementQuantidade = (id: number) => {
     if (quantidade[id] > 0) {
@@ -109,7 +108,7 @@ const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
       }
     }
     setValorTotal(newTotal);
-  }, [quantidade]);
+  }, [quantidade, setValorTotal]);
 
   return (
     <>
@@ -145,10 +144,10 @@ const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
               }}
             >
               <Image
-              src={produto.image}
-              alt={produto.name}
-              width={1}
-              height={1}
+                src={produto.image}
+                alt={produto.name}
+                width={500}
+                height={500}
               />
               <h2>{produto.name}</h2>
               <p>{produto.description}</p>

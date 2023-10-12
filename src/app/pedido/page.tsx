@@ -19,12 +19,7 @@ export default function Pedido() {
           width: "300px",
         }}
       >
-        <Image
-          src={"/iso.png"}
-          alt={"imagem"}
-          width={1}
-          height={1}
-        />
+        <Image src="/iso.png" alt={"imagem"} width={100} height={500} />
         <p>
           Nossos produtos são certificados pelo ISO 9001, garantia e segurança
           para sua família!
@@ -36,11 +31,7 @@ export default function Pedido() {
         Icon={<AiOutlineShoppingCart />}
         text={"Avançar"}
       />
-      <Image
-      src={"/image2.png"}
-      alt={"imagem"}
-            width={1}
-            height={1}/>
+      <Image src="/image2.png" alt={"imagem"} width={300} height={500} />
     </>
   );
 }

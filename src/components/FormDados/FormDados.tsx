@@ -1,7 +1,16 @@
 "use client";
 
+// ReactJs
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+
+// Context
 import { useAppState } from "@/hooks/context";
+
+// Componentes
+import Button from "@/components/Button/Button";
+
+// icons
+import { BsArrowLeft } from "react-icons/bs";
 import { BsWhatsapp } from "react-icons/bs";
 import { FiAlertTriangle } from "react-icons/fi";
 
@@ -21,7 +30,7 @@ export default function FormDados() {
   const myphone: number = 5551981877876;
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement |  HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setClientData((prevData) => ({
@@ -219,6 +228,8 @@ export default function FormDados() {
             })}
           </p>
         </div>
+
+        <Button to={"/pedido"} Icon={<BsArrowLeft />} text={"Voltar"} />
 
         <button
           className="button"
