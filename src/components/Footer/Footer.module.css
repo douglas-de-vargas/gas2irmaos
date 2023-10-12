@@ -1,0 +1,24 @@
+.footer {
+  background: var(--primary);
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1266px;
+  margin: 0 auto;
+}
+
+.container #icons {
+  font-size: 2rem;
+}
+
+.container span {
+  font-size: 0.8rem;
+  color: black;
+}

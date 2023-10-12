@@ -1,0 +1,20 @@
+.header {
+  background: var(--primary);
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: serif;
+  width: 100%;
+  max-width: 1266px;
+  margin: 0 auto;
+}
+
+.container a {
+  text-decoration: none;
+  padding: 0.5rem;
+  color: white;
+}
