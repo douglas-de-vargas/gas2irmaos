@@ -1,7 +1,14 @@
 "use client";
 
 // ReactJs
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 // Context
 import { useAppState } from "@/hooks/context";
@@ -15,17 +22,31 @@ import { BsWhatsapp } from "react-icons/bs";
 import { FiAlertTriangle } from "react-icons/fi";
 
 export default function FormDados() {
-  const [clientData, setClientData] = useState({
-    name: "",
-    phone: "",
-    street: "",
-    housenumber: "",
-    complement: "",
-    district: "",
-    city: "",
-    pay: "",
-    additional: "",
-  });
+  type ClientData = {
+    name: string;
+    phone: string;
+    street: string;
+    housenumber: string;
+    complement: string;
+    district: string;
+    city: string;
+    pay: string;
+    additional: string;
+  };
+
+  type AppState = {
+    valorTotal: number;
+    setValorTotal: Dispatch<SetStateAction<number>>;
+    quantidade: { [key: number]: number };
+    setQuantidade: React.Dispatch<
+      React.SetStateAction<{ [key: number]: number }>
+    >;
+    clientData: ClientData;
+    setClientData: Dispatch<SetStateAction<ClientData>>;
+  };
+
+  const { valorTotal, setValorTotal, clientData, setClientData } =
+    useAppState() as unknown as AppState;
 
   const myphone: number = 5551981877876;
 
@@ -46,7 +67,7 @@ export default function FormDados() {
       clientData.name
     }%0A*Contato:*${" "}${clientData.phone}%0A%0A*Rua:*${" "}${
       clientData.street
-    }%0A*Número:*${" "}${clientData.housenumber}%0A*Complemento:*${" "}${
+    } - ${" "}${clientData.housenumber}%0A*Complemento:*${" "}${
       clientData.complement
     }%0A*Bairro:*${" "}${clientData.district}%0A*Cidade:*${" "}${
       clientData.city
@@ -74,13 +95,6 @@ export default function FormDados() {
       }
     }
   }, [clientData.pay]);
-
-  interface AppState {
-    valorTotal: number;
-    setValorTotal: (value: number) => void;
-  }
-
-  const { valorTotal, setValorTotal } = useAppState() as unknown as AppState;
 
   return (
     <>
