@@ -155,28 +155,14 @@ export default function Loja() {
               <h2>{produto.name}</h2>
               <p>{produto.description}</p>
               <p>Peso: {produto.weight}</p>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space between",
-                  alignItems: "center",
-                  fontSize: "2rem",
-                }}
+              <div className="produto_card_quant"
               >
                 <BsDashLg
                   onClick={() => decrementQuantidade(produto.id)}
-                  style={{
-                    border: "1px solid gray",
-                    borderRadius: "4px",
-                  }}
                 />
                 {quantidade[produto.id] || 0}
                 <BsPlusLg
                   onClick={() => incrementarQuantidade(produto.id)}
-                  style={{
-                    border: "1px solid gray",
-                    borderRadius: "4px",
-                  }}
                 />
               </div>
               <div

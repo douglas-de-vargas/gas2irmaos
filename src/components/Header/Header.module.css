@@ -9,7 +9,7 @@
   align-items: center;
   font-family: serif;
   width: 100%;
-  max-width: 1266px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
