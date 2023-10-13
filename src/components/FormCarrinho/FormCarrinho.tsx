@@ -73,14 +73,17 @@ const products: Product[] = [
 ];
 
 export default function Loja() {
-  // const [quantidade, setQuantidade] = useState<{ [key: number]: number }>({});
-
-  interface IAppState {
+  type AppState = {
     valorTotal: number;
-    setValorTotal: (value: number) => void;
-  }
+    setValorTotal: React.Dispatch<React.SetStateAction<number>>;
+    quantidade: { [key: number]: number };
+    setQuantidade: React.Dispatch<
+      React.SetStateAction<{ [key: number]: number }>
+    >;
+  };
 
-  const { valorTotal, setValorTotal, quantidade, setQuantidade } = useAppState() as unknown as IAppState;
+  const { valorTotal, setValorTotal, quantidade, setQuantidade } =
+    useAppState() as unknown as AppState;
 
   const decrementQuantidade = (id: number) => {
     if (quantidade[id] > 0) {

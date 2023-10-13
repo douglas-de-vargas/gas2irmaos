@@ -2,26 +2,40 @@
 
 // ReactJs
 import * as React from "react";
-
-
-const AppValorContext = React.createContext<{}>({});
+import {
+  createContext,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+  PropsWithChildren,
+} from "react";
 
 type AppState = {
   valorTotal: number;
-  setValorTotal: React.Dispatch<React.SetStateAction<number>>;
+  setValorTotal: Dispatch<SetStateAction<number>>;
   quantidade: { [key: number]: number };
+    setQuantidade: React.Dispatch<
+      React.SetStateAction<{ [key: number]: number }>
+    >;
 };
+
+const AppValorContext = createContext({} as AppState);
 
 export const useAppState = () => {
-  return React.useContext(AppValorContext);
+  return useContext(AppValorContext);
 };
 
-export const AppStateProvider: React.FC = ({ children }) => {
-  const [valorTotal, setValorTotal] = React.useState(0);
-  const [quantidade, setQuantidade] = React.useState<{ [key: number]: number }>({});
+export const AppStateProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [valorTotal, setValorTotal] = useState(0);
+  const [quantidade, setQuantidade] = React.useState<{ [key: number]: number }>(
+    {}
+  );
 
   return (
-    <AppValorContext.Provider value={{ valorTotal, setValorTotal, quantidade, setQuantidade }}>
+    <AppValorContext.Provider
+      value={{ valorTotal, setValorTotal, quantidade, setQuantidade }}
+    >
       {children}
     </AppValorContext.Provider>
   );
