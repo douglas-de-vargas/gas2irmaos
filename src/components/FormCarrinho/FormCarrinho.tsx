@@ -12,65 +12,8 @@ import { useAppState } from "@/hooks/context";
 //icons
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 
-interface Product {
-  image: string;
-  weight: string;
-  name: string;
-  description: string;
-  price: number;
-  id: number;
-}
-
-const products: Product[] = [
-  {
-    image: "/agua20l.png",
-    weight: "20 Lts",
-    name: "Água",
-    description: "Galão de água 20l",
-    price: 16,
-    id: 10,
-  },
-  {
-    image: "/botijaop2.png",
-    weight: "02 Kg",
-    name: "P02",
-    description: "Liquinho",
-    price: 40,
-    id: 20,
-  },
-  {
-    image: "/botijaop5.jpeg",
-    weight: "05 Kg",
-    name: "P05",
-    description: "Botijão pequeno",
-    price: 60,
-    id: 30,
-  },
-  {
-    image: "/botijaop13.jpg",
-    weight: "13 Kg",
-    name: "P13",
-    description: "Botijão de cozinha",
-    price: 104.9,
-    id: 40,
-  },
-  {
-    image: "/botijaop20.jpeg",
-    weight: "20 Kg",
-    name: "P20",
-    description: "Botijão Industrial",
-    price: 220,
-    id: 50,
-  },
-  {
-    image: "/botijaop45.png",
-    weight: "45 Kg",
-    name: "P45",
-    description: "Botijão Residencial",
-    price: 400,
-    id: 60,
-  },
-];
+//data
+import { products } from "./produtos";
 
 export default function Loja() {
   type AppState = {
@@ -155,15 +98,10 @@ export default function Loja() {
               <h2>{produto.name}</h2>
               <p>{produto.description}</p>
               <p>Peso: {produto.weight}</p>
-              <div className="produto_card_quant"
-              >
-                <BsDashLg
-                  onClick={() => decrementQuantidade(produto.id)}
-                />
+              <div className="produto_card_quant">
+                <BsDashLg onClick={() => decrementQuantidade(produto.id)} />
                 {quantidade[produto.id] || 0}
-                <BsPlusLg
-                  onClick={() => incrementarQuantidade(produto.id)}
-                />
+                <BsPlusLg onClick={() => incrementarQuantidade(produto.id)} />
               </div>
               <div
                 style={{

@@ -17,6 +17,10 @@ a {
   text-decoration: none;
 }
 
+ol, li {
+	list-style: none;
+}
+
 body {
   display: flex;
   flex-direction: column;

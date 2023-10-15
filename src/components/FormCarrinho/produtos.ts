@@ -1,4 +1,13 @@
-[
+interface Product {
+  image: string;
+  weight: string;
+  name: string;
+  description: string;
+  price: number;
+  id: number;
+}
+
+export const products: Product[] = [
   {
     image: "/agua20l.png",
     weight: "20 Lts",

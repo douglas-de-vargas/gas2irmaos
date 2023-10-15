@@ -10,6 +10,9 @@ import React, {
   SetStateAction,
 } from "react";
 
+//imputmask
+import { InputMask } from "primereact/inputmask";
+
 // Context
 import { useAppState } from "@/hooks/context";
 
@@ -20,6 +23,9 @@ import Button from "@/components/Button/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { BsWhatsapp } from "react-icons/bs";
 import { FiAlertTriangle } from "react-icons/fi";
+
+//data
+import { products } from "../FormCarrinho/produtos";
 
 export default function FormDados() {
   type ClientData = {
@@ -45,10 +51,42 @@ export default function FormDados() {
     setClientData: Dispatch<SetStateAction<ClientData>>;
   };
 
-  const { valorTotal, setValorTotal, clientData, setClientData } =
-    useAppState() as unknown as AppState;
+  const {
+    valorTotal,
+    setValorTotal,
+    clientData,
+    setClientData,
+    quantidade,
+    setQuantidade,
+  } = useAppState() as unknown as AppState;
 
   const myphone: number = 5551981877876;
+
+  // Mostrar produtos selecionados
+  const selectedProducts = products
+    .map((produto) => ({
+      produto,
+      selectedQuantity: quantidade[produto.id] || 0,
+    }))
+    .filter((selectedProduct) => selectedProduct.selectedQuantity > 0); //fim
+
+  // Resumo da compra para o link
+  let productsSummary = selectedProducts
+    .map(
+      (selectedProduct) =>
+        `${selectedProduct.produto.name} - Quantidade: ${selectedProduct.selectedQuantity}`
+    )
+    .join("%0A");
+  if (selectedProducts.length === 0) {
+    productsSummary = "Nenhum produto.";
+  }
+  //fim
+
+  // Formata o valor total
+  const formattedValorTotal = valorTotal.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }); //fim
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -63,17 +101,17 @@ export default function FormDados() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de pedir gás!%0A*Cliente:*${" "}${
+    const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A*Cliente:*${" "}${
       clientData.name
     }%0A*Contato:*${" "}${clientData.phone}%0A%0A*Rua:*${" "}${
       clientData.street
-    } - ${" "}${clientData.housenumber}%0A*Complemento:*${" "}${
+    }${", "}${clientData.housenumber}%0A*Complemento:*${" "}${
       clientData.complement
-    }%0A*Bairro:*${" "}${clientData.district}%0A*Cidade:*${" "}${
+    }%0A*Bairro:*${" "}${clientData.district}${" / "}${
       clientData.city
     }%0A*Pagamento:*${" "}${clientData.pay}%0A%0A*Informações Adicionais:*%0A${
       clientData.additional
-    }`;
+    }%0A%0A*Produtos Selecionados:*%0A${productsSummary}%0A${formattedValorTotal}`;
 
     window.open(whatsAppLink, "_blank");
   };
@@ -116,15 +154,24 @@ export default function FormDados() {
         <label htmlFor="phone">
           Telefone de contato:
           <br />
-          <input
-            type="tel"
+          <InputMask
             id="phone"
+            type="tel"
             name="phone"
-            placeholder="Digite seu telefone para contato."
             value={clientData.phone}
             onChange={handleChange}
+            mask="(99) 9 9999-9999"
+            placeholder="(DDD) 9 9999-9999"
             required
           />
+          <span
+            style={{
+              fontSize: ".7rem",
+              color: "red",
+            }}
+          >
+            Digite apenas números. 11 números
+          </span>
         </label>
 
         <label htmlFor="street">
@@ -145,7 +192,7 @@ export default function FormDados() {
           Número da casa:
           <br />
           <input
-            type="text"
+            type="number"
             id="housenumber"
             name="housenumber"
             placeholder="Digite o número da casa."
@@ -233,15 +280,34 @@ export default function FormDados() {
             onChange={handleChange}
           />
         </label>
-        <div>
-          <p>
-            Valor Total:{" "}
-            {valorTotal.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
-          </p>
-        </div>
+
+        {valorTotal > 0 ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "15px",
+            }}
+          >
+            <h3>Resumo da Compra</h3>
+            <ul>
+              {selectedProducts.map((selectedProduct) => (
+                <li key={selectedProduct.produto.id}>
+                  {selectedProduct.produto.name} - Quantidade:{" "}
+                  {selectedProduct.selectedQuantity}
+                </li>
+              ))}
+            </ul>
+            <h3>Valor Total: {formattedValorTotal}</h3>
+          </div>
+        ) : (
+          <div id="alerts">
+            <div>
+              <FiAlertTriangle stroke={"#d33100"} />
+              Nenhum produto selecionado!
+            </div>
+          </div>
+        )}
 
         <Button to={"/pedido"} Icon={<BsArrowLeft />} text={"Voltar"} />
 
