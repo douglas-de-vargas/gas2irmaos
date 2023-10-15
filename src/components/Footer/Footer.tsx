@@ -12,8 +12,12 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.icons}>
+         <Link href="https://www.facebook.com/supergasbrasdoisirmaos?mibextid=ZbWKwL" target="_blank" passHref>
           <BiLogoFacebookSquare />
+          </Link>
+          <Link href="https://instagram.com/supergasbras.guaiba?igshid=MzRlODBiNWFlZA==" target="_blank"	passHref>
           <BiLogoInstagramAlt />
+          </Link>
         </div>
         <span>
           &copy; 2023{' '}
