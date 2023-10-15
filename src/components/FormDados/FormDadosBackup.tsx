@@ -3,22 +3,44 @@
 // ReactJs
 import React, { useEffect, ChangeEvent, FormEvent, Dispatch, SetStateAction } from 'react'
 
-// Contexts
+// Context
 import { useAppState } from '@/contexts/dadosCompra'
 
-// Components
+// Componentes
 import Button from '@/components/Button/Button'
 
-// Data bases
+// Data
 import { products } from '../FormCarrinho/produtos'
 
 // icons
-import { BsArrowLeft, BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs'
+import { BsArrowLeft } from 'react-icons/bs'
 import { BsWhatsapp } from 'react-icons/bs'
 import { FiAlertTriangle } from 'react-icons/fi'
 
 export default function FormDados() {
-  const { valorTotal, clientData, setClientData, quantidade } = useAppState()
+  type ClientData = {
+    name: string
+    phone: string
+    street: string
+    housenumber: string
+    complement: string
+    district: string
+    city: string
+    pay: string
+    additional: string
+  }
+
+  type AppState = {
+    valorTotal: number
+    setValorTotal: Dispatch<SetStateAction<number>>
+    quantidade: { [key: number]: number }
+    setQuantidade: React.Dispatch<React.SetStateAction<{ [key: number]: number }>>
+    clientData: ClientData
+    setClientData: Dispatch<SetStateAction<ClientData>>
+  }
+
+  const { valorTotal, setValorTotal, clientData, setClientData, quantidade, setQuantidade } =
+    useAppState() as unknown as AppState
 
   const myphone: number = 5551981877876
 
@@ -69,11 +91,30 @@ export default function FormDados() {
     window.open(whatsAppLink, '_blank')
   }
 
+  useEffect(() => {
+    const selectElement = document.getElementById('city')
+    if (selectElement) {
+      if (clientData.city !== '') {
+        selectElement.style.color = 'black'
+      }
+    }
+  }, [clientData.city])
+
+  useEffect(() => {
+    const selectElement = document.getElementById('pay')
+    if (selectElement) {
+      if (clientData.pay !== '') {
+        selectElement.style.color = 'black'
+      }
+    }
+  }, [clientData.pay])
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">
           Nome:
+          <br />
           <input
             type="text"
             id="name"
@@ -87,9 +128,10 @@ export default function FormDados() {
 
         <label htmlFor="phone">
           Telefone de contato:
+          <br />
           <input
             id="phone"
-            type="number"
+            type="tel"
             name="phone"
             value={clientData.phone}
             onChange={handleChange}
@@ -108,6 +150,7 @@ export default function FormDados() {
 
         <label htmlFor="street">
           Nome da rua:
+          <br />
           <input
             type="text"
             id="street"
@@ -121,6 +164,7 @@ export default function FormDados() {
 
         <label htmlFor="housenumber">
           Número da casa:
+          <br />
           <input
             type="number"
             id="housenumber"
@@ -135,7 +179,8 @@ export default function FormDados() {
         <label htmlFor="complement">
           Complemento:
           <br />
-          <span style={{ fontSize: '.7rem' }}>Fundos, Casa 2, Bloco, etc...</span>
+          Fundos, Casa 2, Bloco, etc...
+          <br />
           <input
             type="text"
             id="complement"
@@ -148,6 +193,7 @@ export default function FormDados() {
 
         <label htmlFor="district">
           Bairro:
+          <br />
           <input
             type="text"
             id="district"
@@ -160,8 +206,9 @@ export default function FormDados() {
 
         <label htmlFor="city">
           Cidade:
+          <br />
           <select id="city" name="city" value={clientData.city} onChange={handleChange} required>
-            <option value="" style={{ display: 'none' }}>
+            <option value="" disabled>
               Selecione.
             </option>
             <option value="Guaíba-RS">Guaíba-RS</option>
@@ -170,8 +217,9 @@ export default function FormDados() {
 
         <label htmlFor="pay">
           Forma de pagamento:
-          <select id="pay" name="pay" value={clientData.pay} onChange={handleChange} required>
-            <option value="" style={{ display: 'none' }}>
+          <br />
+          <select id="pay" name="pay" value={clientData.pay} onChange={handleChange}>
+            <option value="" disabled>
               Selecione.
             </option>
             <option value="Dinheiro">Dinheiro</option>
@@ -183,10 +231,10 @@ export default function FormDados() {
 
         <label htmlFor="additional">
           Observações:
-          <span style={{ fontSize: '.7rem' }}>
-            • Pontos de referência
-            <br />• Informações Adicionais
-          </span>
+          <br />
+          • Pontos de referência
+          <br />• Informações Adicionais
+          <br />
           <textarea
             id="additional"
             name="additional"

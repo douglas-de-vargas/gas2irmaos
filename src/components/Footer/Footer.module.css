@@ -3,6 +3,8 @@
   width: 100%;
   padding: 0.5rem;
   color: white;
+  border-top: 3px solid rgba(0, 0, 0, 0.3);
+  z-index: 10;
 }
 
 .container {
@@ -12,13 +14,17 @@
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
+  gap: 0.5rem;
 }
 
-.container #icons {
-  font-size: 2rem;
+.icons {
+  display: flex;
+  gap: 0.3rem;
 }
 
-.container span {
-  font-size: 0.8rem;
-  color: black;
+.container span,
+.container a {
+  font-size: 0.88rem;
+  color: white;
+  font-family: monospace;
 }
