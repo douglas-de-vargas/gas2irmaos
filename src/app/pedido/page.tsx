@@ -13,7 +13,7 @@ export default function Pedido() {
   const cardIcon = true;
   return (
     <>
-      <Image src="/image2.png" alt={"imagem"} width={300} height={550} />
+      <Image src="/image2.png" alt={"imagem"} width={362} height={492} />
       <div className="iso">
         <div className="iso__img">
           <Image src="/iso.png" alt={"imagem"} width={100} height={100} />
@@ -31,7 +31,7 @@ export default function Pedido() {
       </div>
       <FormCarrinho />
       <Button
-        to={"/pedido/dados"}
+        to={"/dados"}
         Icon={<AiOutlineShoppingCart />}
         text={"Avançar"}
       />
@@ -39,7 +39,7 @@ export default function Pedido() {
         Duvidas?
         <div className="contact__phone">
           <MdPhonelinkRing />
-          (51) 9 9992-8728
+          (51) 99992-8728
         </div>
         <div className="contact__phone">
           <MdPhoneInTalk />

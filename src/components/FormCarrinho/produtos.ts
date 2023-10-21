@@ -29,7 +29,7 @@ export const products: Product[] = [
     weight: '05 Kg',
     name: 'P05',
     description: 'Botijão pequeno',
-    price: 60,
+    price: 79.90,
     id: 30,
   },
   {
@@ -53,7 +53,7 @@ export const products: Product[] = [
     weight: '45 Kg',
     name: 'P45',
     description: 'Botijão Residencial',
-    price: 400,
+    price: 420,
     id: 60,
   },
 ]

@@ -1,249 +1,262 @@
-'use client'
+"use client";
 
 // ReactJs
-import React, { useEffect, ChangeEvent, FormEvent, Dispatch, SetStateAction } from 'react'
+import React, {
+    useEffect,
+    useState,
+    ChangeEvent,
+    FormEvent,
+    Dispatch,
+    SetStateAction
+} from "react";
 
-// Contexts
-import { useAppState } from '@/contexts/dadosCompra'
+// Contexts / Types
+import { useAppState, IclientData } from "@/contexts/dadosCompra";
 
 // Components
-import Button from '@/components/Button/Button'
+import Button from "@/components/Button/Button";
 
 // Data bases
-import { products } from '../FormCarrinho/produtos'
+import { products } from "../FormCarrinho/produtos";
+
+// Reack Hook Form
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 
 // icons
-import { BsArrowLeft, BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs'
-import { BsWhatsapp } from 'react-icons/bs'
-import { FiAlertTriangle } from 'react-icons/fi'
+import {
+    BsArrowLeft,
+    BsChevronCompactDown,
+    BsChevronCompactUp
+} from "react-icons/bs";
+import { BsWhatsapp } from "react-icons/bs";
+import { FiAlertTriangle } from "react-icons/fi";
+
+// *** //
 
 export default function FormDados() {
-  const { valorTotal, clientData, setClientData, quantidade } = useAppState()
+    const { valorTotal, clientData, setClientData, quantidade } = useAppState();
 
-  const myphone: number = 5551981877876
+    const myphone: number = 5551981877876;
 
-  // Mostrar produtos selecionados
-  const selectedProducts = products
-    .map((produto) => ({
-      produto,
-      selectedQuantity: quantidade[produto.id] || 0,
-    }))
-    .filter((selectedProduct) => selectedProduct.selectedQuantity > 0) //fim
+    const methods = useForm<IclientData>();
 
-  // Resumo da compra para o link
-  let productsSummary = selectedProducts
-    .map((selectedProduct) => `${selectedProduct.produto.name} - Quantidade: ${selectedProduct.selectedQuantity}`)
-    .join('%0A')
-  if (selectedProducts.length === 0) {
-    productsSummary = 'Nenhum produto.'
-  }
-  //fim
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        formState: { errors }
+    } = methods;
 
-  // Formata o valor total
-  const formattedValorTotal = valorTotal.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }) //fim
+    // Mostrar produtos selecionados
+    const selectedProducts = products
+        .map(produto => ({
+            produto,
+            selectedQuantity: quantidade[produto.id] || 0
+        }))
+        .filter(selectedProduct => selectedProduct.selectedQuantity > 0); //fim
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setClientData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }))
-  }
+    // Resumo da compra para o link
+    let productsSummary = selectedProducts
+        .map(
+            selectedProduct =>
+                `${selectedProduct.produto.name} - Quantidade: ${selectedProduct.selectedQuantity}`
+        )
+        .join("%0A");
+    if (selectedProducts.length === 0) {
+        productsSummary = "Nenhum produto.";
+    } //fim
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    // Formata o valor total
+    const formattedValorTotal = valorTotal.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    }); //fim
 
-    const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A*Cliente:*${' '}${
-      clientData.name
-    }%0A*Contato:*${' '}${clientData.phone}%0A%0A*Rua:*${' '}${clientData.street}${', '}${
-      clientData.housenumber
-    }%0A*Complemento:*${' '}${clientData.complement}%0A*Bairro:*${' '}${clientData.district}${' / '}${
-      clientData.city
-    }%0A*Pagamento:*${' '}${clientData.pay}%0A%0A*Informações Adicionais:*%0A${
-      clientData.additional
-    }%0A%0A*Produtos Selecionados:*%0A${productsSummary}%0A${formattedValorTotal}`
+    // Salva o estado do form ao Voltar
+    const handleVoltarClick = () => {
+        const formData = getValues();
+        setClientData(formData);
+    };
 
-    window.open(whatsAppLink, '_blank')
-  }
+    // Submit -> chama o WhatsApp link
+    const onSubmit: SubmitHandler<IclientData> = data => {
+        setClientData(data);
 
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Nome:
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Digite seu nome."
-            value={clientData.name}
-            onChange={handleChange}
-            required
-          />
-        </label>
+        const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A*Cliente:*${" "}${
+            data.name
+        }%0A*Contato:*${" "}${data.phone}%0A%0A*Rua:*${" "}${
+            data.street
+        }${", "}${data.housenumber}%0A*Complemento:*${" "}${
+            data.complement
+        }%0A*Bairro:*${" "}${data.district}${" / "}${
+            data.city
+        }%0A*Pagamento:*${" "}${data.pay}%0A%0A*Informações Adicionais:*%0A${
+            data.additional
+        }%0A%0A*Produtos Selecionados:*%0A${productsSummary}%0A${formattedValorTotal}`;
 
-        <label htmlFor="phone">
-          Telefone de contato:
-          <input
-            id="phone"
-            type="number"
-            name="phone"
-            value={clientData.phone}
-            onChange={handleChange}
-            placeholder="(DDD) 9 9999-9999"
-            required
-          />
-          <span
-            style={{
-              fontSize: '.7rem',
-              color: 'red',
-            }}
-          >
-            Digite apenas números. 11 números
-          </span>
-        </label>
+        window.open(whatsAppLink, "_blank");
+    }; //fim
 
-        <label htmlFor="street">
-          Nome da rua:
-          <input
-            type="text"
-            id="street"
-            name="street"
-            placeholder="Digite o nome da sua rua."
-            value={clientData.street}
-            onChange={handleChange}
-            required
-          />
-        </label>
-
-        <label htmlFor="housenumber">
-          Número da casa:
-          <input
-            type="number"
-            id="housenumber"
-            name="housenumber"
-            placeholder="Digite o número da casa."
-            value={clientData.housenumber}
-            onChange={handleChange}
-            required
-          />
-        </label>
-
-        <label htmlFor="complement">
-          Complemento:
-          <br />
-          <span style={{ fontSize: '.7rem' }}>Fundos, Casa 2, Bloco, etc...</span>
-          <input
-            type="text"
-            id="complement"
-            name="complement"
-            placeholder="Digite o complemento, se houver."
-            value={clientData.complement}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label htmlFor="district">
-          Bairro:
-          <input
-            type="text"
-            id="district"
-            name="district"
-            placeholder="Digite o nome do bairro."
-            value={clientData.district}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label htmlFor="city">
-          Cidade:
-          <select id="city" name="city" value={clientData.city} onChange={handleChange} required>
-            <option value="" style={{ display: 'none' }}>
-              Selecione.
-            </option>
-            <option value="Guaíba-RS">Guaíba-RS</option>
-          </select>
-        </label>
-
-        <label htmlFor="pay">
-          Forma de pagamento:
-          <select id="pay" name="pay" value={clientData.pay} onChange={handleChange} required>
-            <option value="" style={{ display: 'none' }}>
-              Selecione.
-            </option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Pix">Pix</option>
-            <option value="Débito">Débito</option>
-            <option value="Crédito">Crédito</option>
-          </select>
-        </label>
-
-        <label htmlFor="additional">
-          Observações:
-          <span style={{ fontSize: '.7rem' }}>
-            • Pontos de referência
-            <br />• Informações Adicionais
-          </span>
-          <textarea
-            id="additional"
-            name="additional"
-            placeholder="Digite observações."
-            value={clientData.additional}
-            onChange={handleChange}
-          />
-        </label>
-
-        {valorTotal > 0 ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '15px',
-            }}
-          >
-            <h3>Resumo da Compra</h3>
-            <ul>
-              {selectedProducts.map((selectedProduct) => (
-                <li key={selectedProduct.produto.id}>
-                  {selectedProduct.produto.name} - Quantidade: {selectedProduct.selectedQuantity}
-                </li>
-              ))}
-            </ul>
-            <h3>Valor Total: {formattedValorTotal}</h3>
-          </div>
-        ) : (
-          <div id="alerts">
-            <div>
-              <FiAlertTriangle stroke={'#d33100'} />
-              Nenhum produto selecionado!
-            </div>
-          </div>
-        )}
-
-        <Button to={'/pedido'} Icon={<BsArrowLeft />} text={'Voltar'} />
-
-        <button className="button" type="submit" disabled={clientData.city === '' || clientData.pay === ''}>
-          <BsWhatsapp /> Fazer pedido
-        </button>
-
-        <div id="alerts">
-          {clientData.city === '' && (
-            <div>
-              <FiAlertTriangle stroke={'#d33100'} />
-              Selecione a cidade!
-            </div>
-          )}
-          {clientData.pay === '' && (
-            <div>
-              <FiAlertTriangle stroke={'#d33100'} />
-              Selecione a forma de pagamento!
-            </div>
-          )}
-        </div>
-      </form>
-    </>
-  )
+    return (
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label>
+                    Nome:
+                    <input
+                        defaultValue={clientData.name}
+                        {...register("name", { required: true })}
+                        placeholder="Nome"
+                    />
+                    {errors.name && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Telefone de contato:
+                    <span style={{ fontSize: ".7rem" }}>• DDD requerido.</span>
+                    <input
+                        defaultValue={clientData.phone}
+                        type="number"
+                        {...register("phone", {
+                            required: true
+                        })}
+                        placeholder="(00) 12345-6789"
+                    />
+                    {errors.phone && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Nome da rua:
+                    <input
+                        defaultValue={clientData.street}
+                        {...register("street", { required: true })}
+                        placeholder="Endereço"
+                    />
+                    {errors.street && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Número da casa:
+                    <input
+                        defaultValue={clientData.housenumber}
+                        type="number"
+                        {...register("housenumber", { required: true })}
+                        placeholder="Número da casa"
+                    />
+                    {errors.housenumber && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Complemento:
+                    <br />
+                    <span style={{ fontSize: ".7rem" }}>
+                        • Fundos, Casa 2, Bloco, etc...
+                    </span>
+                    <input
+                        defaultValue={clientData.complement}
+                        {...register("complement")}
+                        placeholder="Complemento"
+                    />
+                </label>
+                <label>
+                    Bairro:
+                    <input
+                        defaultValue={clientData.district}
+                        {...register("district")}
+                        placeholder="Bairro"
+                    />
+                </label>
+                <label>
+                    Cidade:
+                    <select {...register("city", { required: true })}>
+                        <option value="" style={{ display: "none" }}>
+                            Selecione
+                        </option>
+                        <option value="Guaíba-RS">Guaíba-RS</option>
+                    </select>
+                    {errors.city && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Forma de pagamento:
+                    <select {...register("pay", { required: true })}>
+                        <option value="" style={{ display: "none" }}>
+                            Selecione
+                        </option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Débito">Débito</option>
+                        <option value="Crédito">Crédito</option>
+                    </select>
+                    {errors.pay && (
+                        <span style={{ fontSize: ".7rem", color: "red" }}>
+                            Requerido!
+                        </span>
+                    )}
+                </label>
+                <label>
+                    Observações:
+                    <span style={{ fontSize: ".7rem" }}>
+                        • Pontos de referência
+                        <br />• Informações Adicionais
+                    </span>
+                    <textarea
+                        defaultValue={clientData.additional}
+                        {...register("additional")}
+                        placeholder="Obs"
+                    />
+                </label>
+                <Button
+                    onClick={handleVoltarClick}
+                    to={"/pedido"}
+                    Icon={<BsArrowLeft />}
+                    text={"Voltar"}
+                />
+                {valorTotal > 0 ? (
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "15px"
+                        }}
+                    >
+                        <h3>Resumo da Compra</h3>
+                        <ul>
+                            {selectedProducts.map(selectedProduct => (
+                                <li key={selectedProduct.produto.id}>
+                                    {selectedProduct.produto.name} - Quantidade:{" "}
+                                    {selectedProduct.selectedQuantity}
+                                </li>
+                            ))}
+                        </ul>
+                        <h3>Valor Total: {formattedValorTotal}</h3>
+                    </div>
+                ) : (
+                    <div id="alerts">
+                        <div>
+                            <FiAlertTriangle stroke={"hsl(38, 92.1%, 50.2%)"} />
+                            Nenhum produto selecionado!
+                        </div>
+                    </div>
+                )}
+                <button className="button" type="submit">
+                    <BsWhatsapp /> Fazer pedido
+                </button>
+            </form>
+        </FormProvider>
+    );
 }

@@ -1,33 +1,33 @@
 .footer {
-  background: var(--primary);
-  width: 100%;
-  padding: 0.5rem;
-  color: white;
-  border-top: 3px solid rgba(0, 0, 0, 0.3);
-  z-index: 10;
+    background: var(--primary);
+    width: 100%;
+    padding: 0.5rem;
+    color: white;
+    z-index: 10;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    gap: 0.5rem;
 }
 
 .icons {
-  display: flex;
-  gap: 0.3rem;
+    display: flex;
+    gap: 0.3rem;
 }
+
 .icons svg {
-  font-size: 2rem;
+    font-size: 2rem;
 }
 
 .container span,
 .container a {
-  font-size: 0.88rem;
-  color: white;
-  font-family: monospace;
+    font-size: 0.88rem;
+    color: white;
+    font-family: monospace;
 }
