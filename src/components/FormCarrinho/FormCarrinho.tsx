@@ -75,13 +75,13 @@ export default function FormCarrinho() {
             </div>
           </div>
         ))}
-        <div style={{ fontSize: '1.5rem' }}>
-          Total:{' '}
-          {valorTotal.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          })}
-        </div>
+      </div>
+      <div className="total_price">
+        Total:{' '}
+        {valorTotal.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        })}
       </div>
     </>
   )
