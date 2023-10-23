@@ -14,7 +14,7 @@ export default function Header() {
         <Link href="/" passHref>
           <h2>Gás 2 Irmãos</h2>
         </Link>
-        <Link href="/" passHref>
+        <Link href="/pedido" passHref>
           <HiOutlineShoppingCart />
         </Link>
       </div>

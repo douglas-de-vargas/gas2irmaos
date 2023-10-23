@@ -4,6 +4,7 @@
 import React, {
     useEffect,
     useState,
+    useRef,
     ChangeEvent,
     FormEvent,
     Dispatch,
@@ -18,9 +19,6 @@ import Button from "@/components/Button/Button";
 
 // Data bases
 import { products } from "../FormCarrinho/produtos";
-
-// Reack Hook Form
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 
 // icons
 import {
@@ -37,15 +35,6 @@ export default function FormDados() {
     const { valorTotal, clientData, setClientData, quantidade } = useAppState();
 
     const myphone: number = 5551981877876;
-
-    const methods = useForm<IclientData>();
-
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors }
-    } = methods;
 
     // Mostrar produtos selecionados
     const selectedProducts = products
@@ -72,12 +61,6 @@ export default function FormDados() {
         currency: "BRL"
     }); //fim
 
-    // Salva o estado do form ao Voltar
-    const handleVoltarClick = () => {
-        const formData = getValues();
-        setClientData(formData);
-    };
-
     // Submit -> chama o WhatsApp link
     const onSubmit: SubmitHandler<IclientData> = data => {
         setClientData(data);
@@ -96,167 +79,153 @@ export default function FormDados() {
 
         window.open(whatsAppLink, "_blank");
     }; //fim
-
     return (
-        <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>
-                    Nome:
-                    <input
-                        defaultValue={clientData.name}
-                        {...register("name", { required: true })}
-                        placeholder="Nome"
-                    />
-                    {errors.name && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Telefone de contato:
-                    <span style={{ fontSize: ".7rem" }}>• DDD requerido.</span>
-                    <input
-                        defaultValue={clientData.phone}
-                        type="number"
-                        {...register("phone", {
-                            required: true
-                        })}
-                        placeholder="(00) 12345-6789"
-                    />
-                    {errors.phone && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Nome da rua:
-                    <input
-                        defaultValue={clientData.street}
-                        {...register("street", { required: true })}
-                        placeholder="Endereço"
-                    />
-                    {errors.street && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Número da casa:
-                    <input
-                        defaultValue={clientData.housenumber}
-                        type="number"
-                        {...register("housenumber", { required: true })}
-                        placeholder="Número da casa"
-                    />
-                    {errors.housenumber && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Complemento:
-                    <br />
-                    <span style={{ fontSize: ".7rem" }}>
-                        • Fundos, Casa 2, Bloco, etc...
-                    </span>
-                    <input
-                        defaultValue={clientData.complement}
-                        {...register("complement")}
-                        placeholder="Complemento"
-                    />
-                </label>
-                <label>
-                    Bairro:
-                    <input
-                        defaultValue={clientData.district}
-                        {...register("district")}
-                        placeholder="Bairro"
-                    />
-                </label>
-                <label>
-                    Cidade:
-                    <select {...register("city", { required: true })}>
-                        <option value="" style={{ display: "none" }}>
-                            Selecione
-                        </option>
-                        <option value="Guaíba-RS">Guaíba-RS</option>
-                    </select>
-                    {errors.city && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Forma de pagamento:
-                    <select {...register("pay", { required: true })}>
-                        <option value="" style={{ display: "none" }}>
-                            Selecione
-                        </option>
-                        <option value="Dinheiro">Dinheiro</option>
-                        <option value="Pix">Pix</option>
-                        <option value="Débito">Débito</option>
-                        <option value="Crédito">Crédito</option>
-                    </select>
-                    {errors.pay && (
-                        <span style={{ fontSize: ".7rem", color: "red" }}>
-                            Requerido!
-                        </span>
-                    )}
-                </label>
-                <label>
-                    Observações:
-                    <span style={{ fontSize: ".7rem" }}>
-                        • Pontos de referência
-                        <br />• Informações Adicionais
-                    </span>
-                    <textarea
-                        defaultValue={clientData.additional}
-                        {...register("additional")}
-                        placeholder="Obs"
-                    />
-                </label>
-                <Button
-                    onClick={handleVoltarClick}
-                    to={"/pedido"}
-                    Icon={<BsArrowLeft />}
-                    text={"Voltar"}
+        <form onSubmit={() => onSubmit}>
+            <label>
+                Nome:
+                <input
+                    value={clientData.name}
+                    placeholder="Nome"
+                    name="name"
+                    required
                 />
-                {valorTotal > 0 ? (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "15px"
-                        }}
-                    >
-                        <h3>Resumo da Compra</h3>
-                        <ul>
-                            {selectedProducts.map(selectedProduct => (
-                                <li key={selectedProduct.produto.id}>
-                                    {selectedProduct.produto.name} - Quantidade:{" "}
-                                    {selectedProduct.selectedQuantity}
-                                </li>
-                            ))}
-                        </ul>
-                        <h3>Valor Total: {formattedValorTotal}</h3>
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Telefone de contato:
+                <span style={{ fontSize: ".7rem" }}>• DDD requerido.</span>
+                <input
+                    value={clientData.phone}
+                    type="number"
+                    name="phone"
+                    placeholder="(00) 12345-6789"
+                    required
+                />
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Nome da rua:
+                <input
+                    value={clientData.street}
+                    name="street"
+                    placeholder="Endereço"
+                    required
+                />
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Número da casa:
+                <input
+                    value={clientData.housenumber}
+                    type="number"
+                    name="housenumber"
+                    required
+                    placeholder="Número da casa"
+                />
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Complemento:
+                <br />
+                <span style={{ fontSize: ".7rem" }}>
+                    • Fundos, Casa 2, Bloco, etc...
+                </span>
+                <input
+                    value={clientData.complement}
+                    name="complement"
+                    placeholder="Complemento"
+                />
+            </label>
+            <label>
+                Bairro:
+                <input
+                    value={clientData.district}
+                    name="district"
+                    placeholder="Bairro"
+                />
+            </label>
+            <label>
+                Cidade:
+                <select name="city" required>
+                    <option value="" style={{ display: "none" }}>
+                        Selecione
+                    </option>
+                    <option value="Guaíba-RS">Guaíba-RS</option>
+                </select>
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Forma de pagamento:
+                <select name="pay" required>
+                    <option value="" style={{ display: "none" }}>
+                        Selecione
+                    </option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Débito">Débito</option>
+                    <option value="Crédito">Crédito</option>
+                </select>
+                <span style={{ fontSize: ".7rem", color: "red" }}>
+                    Requerido!
+                </span>
+            </label>
+            <label>
+                Observações:
+                <span style={{ fontSize: ".7rem" }}>
+                    • Pontos de referência
+                    <br />• Informações Adicionais
+                </span>
+                <textarea
+                    value={clientData.additional}
+                    name="additional"
+                    placeholder="Obs"
+                />
+            </label>
+            <Button
+                to={"/pedido"}
+                Icon={<BsArrowLeft />}
+                text={"Voltar"}
+            />
+            {valorTotal > 0 ? (
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "15px"
+                    }}
+                >
+                    <h3>Resumo da Compra</h3>
+                    <ul>
+                        {selectedProducts.map(selectedProduct => (
+                            <li key={selectedProduct.produto.id}>
+                                {selectedProduct.produto.name} - Quantidade:{" "}
+                                {selectedProduct.selectedQuantity}
+                            </li>
+                        ))}
+                    </ul>
+                    <h3>Valor Total: {formattedValorTotal}</h3>
+                </div>
+            ) : (
+                <div id="alerts">
+                    <div>
+                        <FiAlertTriangle stroke={"hsl(38, 92.1%, 50.2%)"} />
+                        Nenhum produto selecionado!
                     </div>
-                ) : (
-                    <div id="alerts">
-                        <div>
-                            <FiAlertTriangle stroke={"hsl(38, 92.1%, 50.2%)"} />
-                            Nenhum produto selecionado!
-                        </div>
-                    </div>
-                )}
-                <button className="button" type="submit">
-                    <BsWhatsapp /> Fazer pedido
-                </button>
-            </form>
-        </FormProvider>
+                </div>
+            )}
+            <button className="button" type="submit">
+                <BsWhatsapp /> Fazer pedido
+            </button>
+        </form>
     );
 }
