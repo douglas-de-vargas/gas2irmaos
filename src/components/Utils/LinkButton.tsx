@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 import Link from "next/link";
 
 // Tipagem
-interface ButtonProps {
+interface LinkButtonProps {
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
     Icon: ReactNode;
     text: string;
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 // Component
-const Button: React.FC<ButtonProps> = ({ onClick, Icon, text, to }) => {
+const LinkButton: React.FC<LinkButtonProps> = ({ onClick, Icon, text, to }) => {
     return (
         <Link href={to} onClick={onClick} className={"button"} passHref>
             {Icon} {text}
@@ -21,4 +21,4 @@ const Button: React.FC<ButtonProps> = ({ onClick, Icon, text, to }) => {
     );
 };
 
-export default Button;
+export default LinkButton;

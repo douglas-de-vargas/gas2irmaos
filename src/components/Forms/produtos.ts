@@ -1,10 +1,10 @@
-interface Product {
-  image: string
+export interface Product {
+  image: string;
   weight: string
   name: string
   description: string
   price: number
-  id: number
+  id: number;
 }
 
 export const products: Product[] = [

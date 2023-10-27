@@ -1,0 +1,47 @@
+.resumo_compra {
+    width: 90%;
+
+    .summary {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        li {
+            list-style: disc;
+            padding: 0 2px;
+        }
+    }
+
+    .alerts {
+        display: flex;
+        gap: 0.5rem;
+        padding: 10px;
+        border-radius: 3px;
+        width: 100%;
+        color: rgb(245, 159, 11);
+        border-left: 2px solid rgb(245, 159, 11);
+        box-shadow: 0px 0px 1px 1px rgba(245, 159, 11, 0.1);
+
+        .alerts_icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                font-size: 1.5rem;
+            }
+        }
+
+        .alerts_body {
+            h1 {
+                font-size: 1rem;
+                font-weight: bold;
+            }
+        }
+    }
+}

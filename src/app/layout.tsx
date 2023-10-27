@@ -11,8 +11,8 @@ import { AppStateProvider } from "@/contexts/dadosCompra";
 import "./globals.css";
 
 // Componentes
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
+import Header from "../components/Asides/Header";
+import Footer from "../components/Asides/Footer";
 
 export const metadata: Metadata = {
     title: "Gás 2 Irmãos",

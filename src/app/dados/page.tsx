@@ -1,5 +1,6 @@
-import FormDados from "@/components/FormDados/FormDados";
+import FormDados from "@/components/Forms/FormDados";
 
 export default function Dados() {
-  return(<><FormDados /></>)
+  return(<><div className="info_dados-pessoais">Dados para a entrega!</div>
+  <FormDados /></>)
 }

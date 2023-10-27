@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 // Componentes
-import Button from "@/components/Button/Button";
+import LinkButton from "@/components/Utils/LinkButton";
 
 // icons
 import { BsArrowRight } from "react-icons/bs";
@@ -36,11 +36,11 @@ export default function SuperGas() {
                     <br />• O gás chegará na sua casa em poucos minutos.
                 </p>
             </div>
-                <Button
-                    to={"/pedido"}
-                    Icon={<BsArrowRight />}
-                    text={"Avançar"}
-                />
+            <LinkButton
+                to={"/pedido"}
+                Icon={<BsArrowRight />}
+                text={"Avançar"}
+            />
         </>
     );
 }
