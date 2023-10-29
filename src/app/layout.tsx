@@ -8,7 +8,7 @@ import * as React from "react";
 import { AppStateProvider } from "@/contexts/dadosCompra";
 
 // Styles
-import "./globals.css";
+import "@/styles/globals.scss";
 
 // Componentes
 import Header from "../components/Asides/Header";

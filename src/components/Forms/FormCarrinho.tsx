@@ -15,6 +15,7 @@ import { SourceSans3 } from '@/fonts/fonts'
 //icons
 import { BsDashLg, BsPlusLg } from 'react-icons/bs'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { FaWeightHanging } from 'react-icons/fa'
 
 //Components
 import LinkButton from '@/components/Utils/LinkButton'
@@ -66,24 +67,27 @@ export default function FormCarrinho() {
           <div
             key={produto.id}
             className='product__card'>
-            <h2>{produto.name}</h2>
+            <div style={{ textAlign: 'center' }}>
+              <h2>{produto.name.toUpperCase()}</h2>
+              <p style={{ fontSize: '.8rem' }}>{produto.description}</p>
+            </div>
+
             <Image
               src={produto.image}
               alt={produto.name}
               width={500}
               height={500}
             />
-            <p>{produto.description}</p>
-            <p>Peso: {produto.weight}</p>
+
+            <span className='weight'>{produto.weight}</span>
+
             <div className='product__card--quantidade'>
               <BsDashLg onClick={() => decrementQuantidade(produto.id)} />
               {quantidade[produto.id] || 0}
               <BsPlusLg onClick={() => incrementarQuantidade(produto.id)} />
             </div>
-            <div
-              style={{
-                fontSize: '1.5rem'
-              }}>
+
+            <div className='price'>
               <span className={SourceSans3.className}>
                 {quantidade[produto.id] > 0
                   ? (
@@ -117,18 +121,6 @@ export default function FormCarrinho() {
           text={'Avançar'}
         />
       )}
-
-      <div
-        style={{ display: 'none' }}
-        className='total_price'>
-        <span className={SourceSans3.className}>
-          Total:{' '}
-          {valorTotal.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          })}
-        </span>
-      </div>
     </>
   )
 }

@@ -4,6 +4,9 @@ import React, { ReactNode } from "react";
 // NextJs
 import Link from "next/link";
 
+//styles
+import "@/styles/LinkButton.scss"
+
 // Tipagem
 interface LinkButtonProps {
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;

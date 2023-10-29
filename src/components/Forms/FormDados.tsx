@@ -1,7 +1,7 @@
 'use client'
 
 // ReactJs
-import React, { useState, FormEvent } from 'react'
+import React, { useRef, useState, FormEvent } from 'react'
 
 // Contexts / Types
 import { useAppState, IclientData } from '@/contexts/dadosCompra'
@@ -59,19 +59,25 @@ export default function FormDados() {
   // Formata o telefone
   function formatPhoneNumber(inputValue: string): void {
     let formattedNumber = inputValue.replace(/\D/g, '')
+
     const maxDigits = 11
+
     if (formattedNumber.length >= maxDigits) {
       formattedNumber = formattedNumber.slice(0, maxDigits)
     }
+
     if (formattedNumber) {
       formattedNumber = formattedNumber
         .replace(/^(\d)/, '($1')
         .replace(/^(\(\d{2})(\d)/, '$1) $2')
         .replace(/(\d{1})(\d{4})(\d{4})/, '$1 $2-$3')
-        .replace(/(\d{4})(\d{4})/, '$1-$2')
+        .replace(/(\d{4})(\d{1})/, '$1-$2')
     }
+
     handleClientData('phone', formattedNumber)
   }
+
+  const buttonRef = useRef(null)
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -82,7 +88,7 @@ export default function FormDados() {
       openWhatsAppLink()
       setFormatted(false)
     } else {
-      alert('caiu no else')
+      alert('Quase lá! Só falta fazer o pedido.')
     }
   }
 
@@ -99,7 +105,7 @@ export default function FormDados() {
 
     const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A*Cliente:*${' '}${
       clientData.name
-    }%0A*Contato:*${' '}${clientData.phone}%0A%0A*Rua:*${' '}${
+    }%0A*Contato:*${' '}${clientData.phone}%0A%0A*Endereço:*${' '}${
       clientData.street
     }${', '}${clientData.housenumber}%0A*Compl.:*${' '}${
       clientData.complement || 'Não'
@@ -125,7 +131,6 @@ export default function FormDados() {
           onChange={event => handleClientData('name', event.target.value)}
           required
         />
-        {clientData.name === '' && <span className='required'>Requerido!</span>}
       </label>
       <label>
         Telefone de contato:
@@ -139,8 +144,18 @@ export default function FormDados() {
           onChange={e => formatPhoneNumber(e.target.value)}
           required
         />
-        {clientData.phone.length <= 12 && (
+        {clientData.phone.length < 14 && (
           <span className='required'>Telefone inválido</span>
+        )}
+        {clientData.phone.length === 14 && (
+          <span className='required'>
+            <span style={{ color: 'green' }}>Telefone fixo</span>
+          </span>
+        )}
+        {clientData.phone.length > 14 && (
+          <span className='required'>
+            <span style={{ color: 'green' }}>Telefone celular</span>
+          </span>
         )}
       </label>
       <label>
@@ -152,9 +167,6 @@ export default function FormDados() {
           onChange={event => handleClientData('street', event.target.value)}
           required
         />
-        {clientData.street === '' && (
-          <span className='required'>Requerido!</span>
-        )}
       </label>
       <label>
         Número da casa:
@@ -168,9 +180,6 @@ export default function FormDados() {
           }
           required
         />
-        {clientData.housenumber === '' && (
-          <span className='required'>Requerido!</span>
-        )}
       </label>
       <label>
         Complemento:
@@ -194,9 +203,6 @@ export default function FormDados() {
           onChange={event => handleClientData('district', event.target.value)}
           required
         />
-        {clientData.district === '' && (
-          <span className='required'>Requerido!</span>
-        )}
       </label>
       <label>
         Cidade:
@@ -212,7 +218,6 @@ export default function FormDados() {
           </option>
           <option value='Guaíba/RS'>Guaíba/RS</option>
         </select>
-        {clientData.city === '' && <span className='required'>Requerido!</span>}
       </label>
       <label>
         Forma de pagamento:
@@ -231,7 +236,6 @@ export default function FormDados() {
           <option value='Débito'>Débito</option>
           <option value='Crédito'>Crédito</option>
         </select>
-        {clientData.pay === '' && <span className='required'>Requerido!</span>}
       </label>
       <label>
         Observações:
@@ -248,14 +252,13 @@ export default function FormDados() {
       </label>
 
       <LinkButton
-        to={'/pedido'}
+        to={'/produtos'}
         Icon={<BsArrowLeft />}
         text={'Voltar'}
       />
+      {valorTotal === 0 && <ResumoCompra />}
 
-      <ResumoCompra />
-
-      {valorTotal === 0 || clientData.phone.length <= 12 ? (
+      {valorTotal === 0 || clientData.phone.length < 14 ? (
         <button
           className='button'
           disabled>
