@@ -37,6 +37,8 @@ export interface IappState {
   setQuantidade: React.Dispatch<React.SetStateAction<{ [key: number]: number }>>
   clientData: IclientData
   setClientData: React.Dispatch<React.SetStateAction<IclientData>>
+  phoneWhatsApp: number
+
   selectedProducts: {
     produto: Product
     selectedQuantity: number
@@ -53,6 +55,9 @@ export const useAppState = () => {
 
 // Provider
 export const AppStateProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  //Telefone que vai receber
+  const phoneWhatsApp: number = 5551981877876
+
   // valorTotal -> FormCarrinho
   const [valorTotal, setValorTotal] = useState(0) //fim
 
@@ -93,7 +98,8 @@ export const AppStateProvider: React.FC<PropsWithChildren> = ({ children }) => {
         setQuantidade,
         clientData,
         setClientData,
-        selectedProducts
+        selectedProducts,
+        phoneWhatsApp
       }}>
       {children}
     </ClientProvider.Provider>

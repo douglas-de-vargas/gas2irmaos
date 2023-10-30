@@ -1,12 +1,11 @@
 .wrapper_img {
   display: flex;
   justify-content: right;
-}
-
-.wrapper_img img {
+  
+ img {
   z-index: 1;
   width: 300px;
-}
+}}
 
 .wrapper_initial_text {
   background: var(--primary);
@@ -17,7 +16,7 @@
   box-shadow: var(--box-shadow);
   position: relative;
   top: -24px;
-}
+
 
 .decored_span__primary {
   color: orange;
@@ -30,11 +29,13 @@
   background: rgba(255, 255, 0, 0.2);
   border-radius: 3px;
   padding: 0px 3px 3px 3px;
-}
+}}
 
 .wrapper_button {
   margin-top: -24px;
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-grow: 1;
+  align-items: center;
 }

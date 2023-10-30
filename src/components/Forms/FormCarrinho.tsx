@@ -23,6 +23,9 @@ import { FaWeightHanging } from 'react-icons/fa'
 import LinkButton from '@/components/Utils/LinkButton'
 import ResumoCompra from '@/components/Utils/ResumoCompra'
 
+//Functions
+import { formatValues } from '@/functions/functions'
+
 //data
 import { products } from './produtos'
 
@@ -92,16 +95,8 @@ export default function FormCarrinho() {
             <div className='price'>
               <span className={SourceSans3.className}>
                 {quantidade[produto.id] > 0
-                  ? (
-                      produto.price * (quantidade[produto.id] || 1)
-                    ).toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })
-                  : produto.price.toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })}
+                  ? formatValues(produto.price * (quantidade[produto.id] || 1))
+                  : formatValues(produto.price)}
               </span>
             </div>
           </div>

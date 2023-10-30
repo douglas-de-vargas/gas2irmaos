@@ -10,6 +10,14 @@ import { MdPhoneInTalk, MdPhonelinkRing } from 'react-icons/md'
 export default function Pedido() {
   return (
     <>
+      <Image
+        className='img-bg'
+        src='/FB_IMG.jpg'
+        alt={'imagem'}
+        width={1080}
+        height={1080}
+        unoptimized
+      />
       <div className='contact'>
         <div className='contact__phone'>
           <MdPhonelinkRing />

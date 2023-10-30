@@ -21,13 +21,16 @@ import { formatValues } from '@/functions/functions'
 
 // *** //
 export default function FormDados() {
-  const { valorTotal, clientData, setClientData, selectedProducts } =
-    useAppState()
-
-  const myphone: number = 5551981877876
+  const {
+    valorTotal,
+    clientData,
+    setClientData,
+    selectedProducts,
+    phoneWhatsApp
+  } = useAppState()
 
   const [formatted, setFormatted] = useState<boolean>(false)
-    const [showDialog, setShowDialog] = useState(false)
+  const [showDialog, setShowDialog] = useState(false)
 
   // Seta os dados no state clientData
   function handleClientData(field: string, value: string) {
@@ -75,7 +78,7 @@ export default function FormDados() {
     handleClientData('phone', formattedNumber)
   }
 
-//Abre/fecha a confirmação dos dados
+  //Abre/fecha a confirmação dos dados
   const handleYesClick = () => {
     setShowDialog(false)
     openWhatsAppLink()
@@ -87,7 +90,7 @@ export default function FormDados() {
     setFormatted(false)
   }
 
-//Submit
+  //Submit
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -108,7 +111,7 @@ export default function FormDados() {
     )
     .join('%0A')
   function openWhatsAppLink() {
-    const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A%0A*Cliente:*${' '}${
+    const whatsAppLink = `https://wa.me/${phoneWhatsApp}?text=Olá, eu gostaria de fazer um pedido!%0A%0A*Cliente:*${' '}${
       clientData.name
     }%0A*Contato:*${' '}${clientData.phone}%0A*Endereço:*${' '}${
       clientData.street
