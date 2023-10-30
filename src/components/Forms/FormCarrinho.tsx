@@ -1,5 +1,7 @@
 'use client'
 
+import '@/styles/products.scss'
+
 //next
 import Image from 'next/image'
 
@@ -66,7 +68,7 @@ export default function FormCarrinho() {
         {products.map(produto => (
           <div
             key={produto.id}
-            className='product__card'>
+            className='product_card'>
             <div style={{ textAlign: 'center' }}>
               <h2>{produto.name.toUpperCase()}</h2>
               <p style={{ fontSize: '.8rem' }}>{produto.description}</p>
@@ -81,7 +83,7 @@ export default function FormCarrinho() {
 
             <span className='weight'>{produto.weight}</span>
 
-            <div className='product__card--quantidade'>
+            <div className='quantity'>
               <BsDashLg onClick={() => decrementQuantidade(produto.id)} />
               {quantidade[produto.id] || 0}
               <BsPlusLg onClick={() => incrementarQuantidade(produto.id)} />
