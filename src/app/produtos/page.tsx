@@ -7,9 +7,6 @@ import FormCarrinho from '@/components/Forms/FormCarrinho'
 //Icons
 import { MdPhoneInTalk, MdPhonelinkRing } from 'react-icons/md'
 
-//styles
-import "@/styles/products.scss"
-
 export default function Pedido() {
   return (
     <>
