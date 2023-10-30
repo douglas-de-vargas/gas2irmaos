@@ -26,9 +26,8 @@ export default function FormDados() {
 
   const myphone: number = 5551981877876
 
-  // Torna true após formatar os dados digitados pelo usuário
-  // Precisa ser true p/ chamar a função openWhatsAppLink
   const [formatted, setFormatted] = useState<boolean>(false)
+    const [showDialog, setShowDialog] = useState(false)
 
   // Seta os dados no state clientData
   function handleClientData(field: string, value: string) {
@@ -66,7 +65,6 @@ export default function FormDados() {
     if (formattedNumber.length >= maxDigits) {
       formattedNumber = formattedNumber.slice(0, maxDigits)
     }
-
     if (formattedNumber) {
       formattedNumber = formattedNumber
         .replace(/^(\d)/, '($1')
@@ -74,12 +72,10 @@ export default function FormDados() {
         .replace(/(\d{1})(\d{4})(\d{4})/, '$1 $2-$3')
         .replace(/(\d{4})(\d{1})/, '$1-$2')
     }
-
     handleClientData('phone', formattedNumber)
   }
 
-  const [showDialog, setShowDialog] = useState(false)
-
+//Abre/fecha a confirmação dos dados
   const handleYesClick = () => {
     setShowDialog(false)
     openWhatsAppLink()
@@ -91,6 +87,7 @@ export default function FormDados() {
     setFormatted(false)
   }
 
+//Submit
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -134,7 +131,6 @@ export default function FormDados() {
         showDialog={showDialog}
         onYesClick={handleYesClick}
         onNoClick={handleNoClick}
-        productsSummary={productsSummary}
       />
       <form onSubmit={onSubmit}>
         <label>

@@ -7,14 +7,19 @@ import { formatValues } from '@/functions/functions'
 import { useAppState } from '@/contexts/dadosCompra'
 
 //icons
-import { BsArrowLeft, BsWhatsapp} from "react-icons/bs"
+import { BsArrowLeft, BsWhatsapp } from 'react-icons/bs'
 
-const CustomDialog = ({
+type ICustomDialogProps = {
+  showDialog: boolean
+  onYesClick: () => void
+  onNoClick: () => void
+}
+
+export default function CustomDialog ({
   showDialog,
   onYesClick,
-  onNoClick,
-  productsSummary
-}) => {
+  onNoClick
+}: ICustomDialogProps) {
   const { clientData, valorTotal, selectedProducts } = useAppState()
   return (
     <div
@@ -76,17 +81,15 @@ const CustomDialog = ({
           <button
             className='button'
             onClick={onNoClick}>
-            <BsArrowLeft/> Revisar
+            <BsArrowLeft /> Revisar
           </button>
           <button
             className='button'
             onClick={onYesClick}>
-            <BsWhatsapp/> Avançar
+            <BsWhatsapp /> Avançar
           </button>
         </div>
       </div>
     </div>
   )
 }
-
-export default CustomDialog
