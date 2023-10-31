@@ -14,7 +14,7 @@ export const products: Product[] = [
     weight: '20 Litros',
     name: 'Água Mineral',
     description: 'Galão 20 litros',
-    price: 16,
+    price: 15.9,
     id: 10
   },
   {
