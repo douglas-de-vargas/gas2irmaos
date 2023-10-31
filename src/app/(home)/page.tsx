@@ -17,7 +17,7 @@ export default function SuperGas() {
         <div className='wrapper_img'>
           <Image
             src={'/image1.png'}
-            alt={'Imagem de um entregador de gás'}
+            alt={'Entregador de gás'}
             width={480}
             height={518}
           />
