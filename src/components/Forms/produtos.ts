@@ -46,7 +46,7 @@ export const products: Product[] = [
     weight: '20 Quilos',
     name: 'Botijão P20',
     description: 'Para uso industrial',
-    price: 220,
+    price: 219.9,
     id: 50
   },
   {
