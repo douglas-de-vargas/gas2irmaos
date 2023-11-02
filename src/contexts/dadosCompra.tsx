@@ -56,7 +56,7 @@ export const useAppState = () => {
 // Provider
 export const AppStateProvider: React.FC<PropsWithChildren> = ({ children }) => {
   //Telefone que vai receber
-  const phoneWhatsApp: number = 5551981877876
+  const phoneWhatsApp: number = 555199928728
 
   // valorTotal -> FormCarrinho
   const [valorTotal, setValorTotal] = useState(0) //fim
