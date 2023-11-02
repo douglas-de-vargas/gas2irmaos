@@ -12,12 +12,12 @@ import '@/styles/home.scss'
 
 export default function SuperGas() {
   return (
-    <>
+    <div className="home">
       <div>
         <div className='wrapper_img'>
           <Image
             src={'/image1.png'}
-            alt={'Imagem de um entregador de gás'}
+            alt={'Entregador de gás'}
             width={480}
             height={518}
           />
@@ -41,6 +41,6 @@ export default function SuperGas() {
           text={'Avançar'}
         />
       </div>
-    </>
+    </div>
   )
 }

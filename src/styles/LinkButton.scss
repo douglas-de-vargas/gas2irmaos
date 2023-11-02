@@ -8,16 +8,16 @@
   justify-content: center;
   max-width: max-content;
   gap: 5px;
-  background: rgb(0,128,105);
+  background: rgb(0, 128, 105);
   color: white;
   border: none;
   transition: 0.2s;
-}
 
-.button:active {
-  scale: 0.95;
-}
+  &:active {
+    scale: 0.95;
+  }
 
-.button:disabled {
-  background: gray;
+  &:disabled {
+    background: gray;
+  }
 }

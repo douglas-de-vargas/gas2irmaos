@@ -1,5 +1,7 @@
 'use client'
 
+import '@/styles/products.scss'
+
 //next
 import Image from 'next/image'
 
@@ -16,10 +18,14 @@ import { SourceSans3 } from '@/fonts/fonts'
 import { BsDashLg, BsPlusLg } from 'react-icons/bs'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaWeightHanging } from 'react-icons/fa'
+import { MdOutlineProductionQuantityLimits } from 'react-icons/md'
 
 //Components
 import LinkButton from '@/components/Utils/LinkButton'
 import ResumoCompra from '@/components/Utils/ResumoCompra'
+
+//Functions
+import { formatValues } from '@/functions/functions'
 
 //data
 import { products } from './produtos'
@@ -66,10 +72,13 @@ export default function FormCarrinho() {
         {products.map(produto => (
           <div
             key={produto.id}
-            className='product__card'>
-            <div style={{ textAlign: 'center' }}>
+            className='product_card'>
+            <div className='product_header'>
               <h2>{produto.name.toUpperCase()}</h2>
-              <p style={{ fontSize: '.8rem' }}>{produto.description}</p>
+              <p>
+                <MdOutlineProductionQuantityLimits />
+                {produto.description}
+              </p>
             </div>
 
             <Image
@@ -81,7 +90,7 @@ export default function FormCarrinho() {
 
             <span className='weight'>{produto.weight}</span>
 
-            <div className='product__card--quantidade'>
+            <div className='quantity'>
               <BsDashLg onClick={() => decrementQuantidade(produto.id)} />
               {quantidade[produto.id] || 0}
               <BsPlusLg onClick={() => incrementarQuantidade(produto.id)} />
@@ -90,16 +99,8 @@ export default function FormCarrinho() {
             <div className='price'>
               <span className={SourceSans3.className}>
                 {quantidade[produto.id] > 0
-                  ? (
-                      produto.price * (quantidade[produto.id] || 1)
-                    ).toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })
-                  : produto.price.toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })}
+                  ? formatValues(produto.price * (quantidade[produto.id] || 1))
+                  : formatValues(produto.price)}
               </span>
             </div>
           </div>
@@ -108,19 +109,21 @@ export default function FormCarrinho() {
 
       <ResumoCompra />
 
-      {valorTotal === 0 ? (
-        <button
-          className='button'
-          disabled>
-          <AiOutlineShoppingCart /> Avançar
-        </button>
-      ) : (
-        <LinkButton
-          to={'/dados'}
-          Icon={<AiOutlineShoppingCart />}
-          text={'Avançar'}
-        />
-      )}
+      <div className='wrapper_button'>
+        {valorTotal === 0 ? (
+          <button
+            className='button'
+            disabled>
+            <AiOutlineShoppingCart /> Avançar
+          </button>
+        ) : (
+          <LinkButton
+            to={'/dados'}
+            Icon={<AiOutlineShoppingCart />}
+            text={'Avançar'}
+          />
+        )}
+      </div>
     </>
   )
 }

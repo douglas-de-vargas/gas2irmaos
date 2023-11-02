@@ -7,12 +7,17 @@ import FormCarrinho from '@/components/Forms/FormCarrinho'
 //Icons
 import { MdPhoneInTalk, MdPhonelinkRing } from 'react-icons/md'
 
-//styles
-import "@/styles/products.scss"
-
 export default function Pedido() {
   return (
     <>
+      <Image
+        className='img-bg'
+        src='/FB_IMG.jpg'
+        alt={'imagem'}
+        width={1080}
+        height={1080}
+        unoptimized
+      />
       <div className='contact'>
         <div className='contact__phone'>
           <MdPhonelinkRing />

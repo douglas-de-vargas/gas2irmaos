@@ -5,13 +5,13 @@ import Link from "next/link";
 import { BiLogoFacebookSquare, BiLogoInstagramAlt } from "react-icons/bi";
 
 // React Styles.module
-import styles from "./Footer.module.css";
+import "@/styles/Footer.scss";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
-        <div className={styles.icons}>
+    <footer>
+      <div className="footer_container">
+        <div className="icons">
           <Link
             href="https://www.facebook.com/supergasbrasdoisirmaos?mibextid=ZbWKwL"
             target="_blank"

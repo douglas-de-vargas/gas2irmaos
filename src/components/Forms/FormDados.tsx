@@ -9,6 +9,7 @@ import { useAppState, IclientData } from '@/contexts/dadosCompra'
 // Components
 import LinkButton from '@/components/Utils/LinkButton'
 import ResumoCompra from '@/components/Utils/ResumoCompra'
+import CustomDialog from '@/components/Utils/CustomDialog'
 
 // icons
 import { BsArrowLeft } from 'react-icons/bs'
@@ -20,14 +21,16 @@ import { formatValues } from '@/functions/functions'
 
 // *** //
 export default function FormDados() {
-  const { valorTotal, clientData, setClientData, selectedProducts } =
-    useAppState()
+  const {
+    valorTotal,
+    clientData,
+    setClientData,
+    selectedProducts,
+    phoneWhatsApp
+  } = useAppState()
 
-  const myphone: number = 5551981877876
-
-  // Torna true após formatar os dados digitados pelo usuário
-  // Precisa ser true p/ chamar a função openWhatsAppLink
   const [formatted, setFormatted] = useState<boolean>(false)
+  const [showDialog, setShowDialog] = useState(false)
 
   // Seta os dados no state clientData
   function handleClientData(field: string, value: string) {
@@ -65,7 +68,6 @@ export default function FormDados() {
     if (formattedNumber.length >= maxDigits) {
       formattedNumber = formattedNumber.slice(0, maxDigits)
     }
-
     if (formattedNumber) {
       formattedNumber = formattedNumber
         .replace(/^(\d)/, '($1')
@@ -73,39 +75,45 @@ export default function FormDados() {
         .replace(/(\d{1})(\d{4})(\d{4})/, '$1 $2-$3')
         .replace(/(\d{4})(\d{1})/, '$1-$2')
     }
-
     handleClientData('phone', formattedNumber)
   }
 
-  const buttonRef = useRef(null)
+  //Abre/fecha a confirmação dos dados
+  const handleYesClick = () => {
+    setShowDialog(false)
+    openWhatsAppLink()
+    setFormatted(false)
+  }
 
+  const handleNoClick = () => {
+    setShowDialog(false)
+    setFormatted(false)
+  }
+
+  //Submit
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     setClientData(wordSplite(clientData, setFormatted))
 
-    if (formatted) {
-      openWhatsAppLink()
-      setFormatted(false)
-    } else {
-      alert('Quase lá! Só falta fazer o pedido.')
-    }
+    setTimeout(() => {
+      setShowDialog(true)
+    }, 500)
   }
 
   //Envia os dados formatados para o WhatsAppLink
+  let productsSummary = selectedProducts
+    .map(
+      selectedProduct =>
+        `${selectedProduct.selectedQuantity.toString().padStart(2, '0')} ${
+          selectedProduct.produto.name
+        }`
+    )
+    .join('%0A')
   function openWhatsAppLink() {
-    let productsSummary = selectedProducts
-      .map(
-        selectedProduct =>
-          `${selectedProduct.selectedQuantity.toString().padStart(2, '0')} ${
-            selectedProduct.produto.name
-          }`
-      )
-      .join('%0A')
-
-    const whatsAppLink = `https://wa.me/${myphone}?text=Olá, eu gostaria de fazer um pedido!%0A*Cliente:*${' '}${
+    const whatsAppLink = `https://wa.me/${phoneWhatsApp}?text=Olá, eu gostaria de fazer um pedido!%0A%0A*Cliente:*${' '}${
       clientData.name
-    }%0A*Contato:*${' '}${clientData.phone}%0A%0A*Endereço:*${' '}${
+    }%0A*Contato:*${' '}${clientData.phone}%0A*Endereço:*${' '}${
       clientData.street
     }${', '}${clientData.housenumber}%0A*Compl.:*${' '}${
       clientData.complement || 'Não'
@@ -113,164 +121,184 @@ export default function FormDados() {
       clientData.city
     }%0A%0A*Informações Adicionais:*%0A${
       clientData.additional || 'Não'
-    }%0A%0A*Produtos Selecionados:*%0A${productsSummary}%0A${formatValues(
+    }%0A%0A*Produtos Selecionados:*%0A${productsSummary}%0A%0A*${formatValues(
       valorTotal
-    )}${' - '}${clientData.pay}`
+    )}${' - '}${clientData.pay}*`
 
     window.open(whatsAppLink, '_blank')
   } //fim
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        Nome:
-        <input
-          value={clientData.name}
-          placeholder='Nome'
-          name='name'
-          onChange={event => handleClientData('name', event.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Telefone de contato:
-        <span style={{ fontSize: '.7rem' }}>• DDD requerido (sem o zero).</span>
-        <input
-          value={clientData.phone}
-          type='text'
-          inputMode='numeric'
-          name='phone'
-          placeholder='(99) 9 9999-9999'
-          onChange={e => formatPhoneNumber(e.target.value)}
-          required
-        />
-        {clientData.phone.length < 14 && (
-          <span className='required'>Telefone inválido</span>
-        )}
-        {clientData.phone.length === 14 && (
-          <span className='required'>
-            <span style={{ color: 'green' }}>Telefone fixo</span>
-          </span>
-        )}
-        {clientData.phone.length > 14 && (
-          <span className='required'>
-            <span style={{ color: 'green' }}>Telefone celular</span>
-          </span>
-        )}
-      </label>
-      <label>
-        Nome da rua:
-        <input
-          value={clientData.street}
-          name='street'
-          placeholder='Endereço'
-          onChange={event => handleClientData('street', event.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Número da casa:
-        <input
-          value={clientData.housenumber}
-          type='number'
-          name='housenumber'
-          placeholder='Número da casa'
-          onChange={event =>
-            handleClientData('housenumber', event.target.value)
-          }
-          required
-        />
-      </label>
-      <label>
-        Complemento:
-        <br />
-        <span style={{ fontSize: '.7rem' }}>
-          • Fundos, Casa 2, Bloco, etc...
-        </span>
-        <input
-          value={clientData.complement}
-          name='complement'
-          placeholder='Complemento'
-          onChange={event => handleClientData('complement', event.target.value)}
-        />
-      </label>
-      <label>
-        Bairro:
-        <input
-          value={clientData.district}
-          name='district'
-          placeholder='Bairro'
-          onChange={event => handleClientData('district', event.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Cidade:
-        <select
-          name='city'
-          value={clientData.city}
-          onChange={event => handleClientData('city', event.target.value)}
-          required>
-          <option
-            value=''
-            style={{ display: 'none' }}>
-            Selecione
-          </option>
-          <option value='Guaíba/RS'>Guaíba/RS</option>
-        </select>
-      </label>
-      <label>
-        Forma de pagamento:
-        <select
-          name='pay'
-          value={clientData.pay}
-          onChange={event => handleClientData('pay', event.target.value)}
-          required>
-          <option
-            value=''
-            style={{ display: 'none' }}>
-            Selecione
-          </option>
-          <option value='Dinheiro'>Dinheiro</option>
-          <option value='Pix'>Pix</option>
-          <option value='Débito'>Débito</option>
-          <option value='Crédito'>Crédito</option>
-        </select>
-      </label>
-      <label>
-        Observações:
-        <span style={{ fontSize: '.7rem' }}>
-          • Pontos de referência
-          <br />• Informações Adicionais
-        </span>
-        <textarea
-          value={clientData.additional}
-          name='additional'
-          placeholder='Obs'
-          onChange={event => handleClientData('additional', event.target.value)}
-        />
-      </label>
-
-      <LinkButton
-        to={'/produtos'}
-        Icon={<BsArrowLeft />}
-        text={'Voltar'}
+    <>
+      <CustomDialog
+        showDialog={showDialog}
+        onYesClick={handleYesClick}
+        onNoClick={handleNoClick}
       />
-      {valorTotal === 0 && <ResumoCompra />}
+      <form onSubmit={onSubmit}>
+        <label>
+          Nome:
+          <input
+            value={clientData.name}
+            placeholder='Nome'
+            name='name'
+            onChange={event => handleClientData('name', event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Telefone de contato:
+          <span style={{ fontSize: '.7rem' }}>
+            • DDD requerido (sem o zero).
+          </span>
+          <input
+            value={clientData.phone}
+            type='text'
+            inputMode='numeric'
+            name='phone'
+            placeholder='(99) 9 9999-9999'
+            onChange={e => formatPhoneNumber(e.target.value)}
+            required
+          />
+          {clientData.phone.length > 5 ? (
+            <div>
+              {clientData.phone.length < 14 && (
+                <span className='required'>
+                <span style={{ color: 'orange' }}>Telefone incompleto</span></span>
+              )}
+              {clientData.phone.length === 14 && (
+                <span className='required'>
+                  <span style={{ color: 'green' }}>Telefone fixo</span>
+                </span>
+              )}
+              {clientData.phone.length > 14 && (
+                <span className='required'>
+                  <span style={{ color: 'green' }}>Telefone celular</span>
+                </span>
+              )}{' '}
+            </div>
+          ) : null}
+        </label>
+        <label>
+          Nome da rua:
+          <input
+            value={clientData.street}
+            name='street'
+            placeholder='Endereço'
+            onChange={event => handleClientData('street', event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Número da casa:
+          <input
+            value={clientData.housenumber}
+            type='number'
+            name='housenumber'
+            placeholder='Número da casa'
+            onChange={event =>
+              handleClientData('housenumber', event.target.value)
+            }
+            required
+          />
+        </label>
+        <label>
+          Complemento:
+          <br />
+          <span style={{ fontSize: '.7rem' }}>
+            • Fundos, Casa 2, Bloco, etc...
+          </span>
+          <input
+            value={clientData.complement}
+            name='complement'
+            placeholder='Complemento'
+            onChange={event =>
+              handleClientData('complement', event.target.value)
+            }
+          />
+        </label>
+        <label>
+          Bairro:
+          <input
+            value={clientData.district}
+            name='district'
+            placeholder='Bairro'
+            onChange={event => handleClientData('district', event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Cidade:
+          <select
+            name='city'
+            value={clientData.city}
+            onChange={event => handleClientData('city', event.target.value)}
+            required>
+            <option
+              value=''
+              style={{ display: 'none' }}>
+              Selecione
+            </option>
+            <option value='Guaíba/RS'>Guaíba/RS</option>
+          </select>
+        </label>
+        <label>
+          Forma de pagamento:
+          <select
+            name='pay'
+            value={clientData.pay}
+            onChange={event => handleClientData('pay', event.target.value)}
+            required>
+            <option
+              value=''
+              style={{ display: 'none' }}>
+              Selecione
+            </option>
+            <option value='Dinheiro'>Dinheiro</option>
+            <option value='Pix'>Pix</option>
+            <option value='Débito'>Débito</option>
+            <option value='Crédito'>Crédito</option>
+          </select>
+        </label>
+        <label>
+          Observações:
+          <span style={{ fontSize: '.7rem' }}>
+            • Pontos de referência
+            <br />• Informações Adicionais
+          </span>
+          <textarea
+            value={clientData.additional}
+            name='additional'
+            placeholder='Obs'
+            onChange={event =>
+              handleClientData('additional', event.target.value)
+            }
+          />
+        </label>
 
-      {valorTotal === 0 || clientData.phone.length < 14 ? (
-        <button
-          className='button'
-          disabled>
-          <BsWhatsapp /> Fazer Pedido
-        </button>
-      ) : (
-        <button
-          type='submit'
-          className='button'>
-          <BsWhatsapp /> Fazer pedido
-        </button>
-      )}
-    </form>
+        <LinkButton
+          to={'/produtos'}
+          Icon={<BsArrowLeft />}
+          text={'Voltar'}
+        />
+        
+        {valorTotal === 0 && <ResumoCompra />}
+
+<div className="wrapper_button">
+        {valorTotal === 0 || clientData.phone.length < 14 ? (
+          <button
+            className='button'
+            disabled>
+            <BsWhatsapp /> Fazer Pedido
+          </button>
+        ) : (
+          <button
+            type='submit'
+            className='button'>
+            <BsWhatsapp /> Fazer pedido
+          </button>
+        )}</div>
+      </form>
+    </>
   )
 }

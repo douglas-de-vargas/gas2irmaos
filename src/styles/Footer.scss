@@ -1,0 +1,33 @@
+footer {
+  background: var(--primary);
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  z-index: 10;
+
+  .footer_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    gap: 0.5rem;
+
+    span,
+    a {
+      font-size: 0.88rem;
+      color: white;
+      font-family: monospace;
+    }
+  }
+
+  .icons {
+    display: flex;
+    gap: 0.3rem;
+
+    svg {
+      font-size: 2rem;
+    }
+  }
+}
