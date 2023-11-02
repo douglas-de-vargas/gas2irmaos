@@ -7,7 +7,14 @@ import '@/styles/forms.scss'
 
 export default function Dados() {
   return (
-    <>
+    <><Image
+        className='img-bg'
+        src='/banner.jpg'
+        alt={'imagem'}
+        width={938}
+        height={392}
+        unoptimized
+      />
       <FormDados />
       <Image
         className='img-bg'
