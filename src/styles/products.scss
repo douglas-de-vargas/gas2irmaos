@@ -12,10 +12,30 @@
     align-items: center;
     justify-content: center;
     width: 90%;
-    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
+    box-shadow: var(--box-shadow-card);
     border-radius: 6px;
-    padding: 1rem;
+    overflow: hidden;
     position: relative;
+    padding-bottom: 1.5rem;
+
+    .product_header {
+      display: flex;
+      flex-direction: column;
+      background: var(--primary);
+      color: white;
+      width: 100%;
+      align-items: center;
+      padding: 0.5rem;
+
+      p {
+        font-size: 0.8rem;
+
+        svg {
+          position: relative;
+          top: 5px;
+        }
+      }
+    }
 
     img {
       max-width: 200px;

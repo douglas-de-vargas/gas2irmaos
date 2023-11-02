@@ -160,19 +160,24 @@ export default function FormDados() {
             onChange={e => formatPhoneNumber(e.target.value)}
             required
           />
-          {clientData.phone.length < 14 && (
-            <span className='required'>Telefone inválido</span>
-          )}
-          {clientData.phone.length === 14 && (
-            <span className='required'>
-              <span style={{ color: 'green' }}>Telefone fixo</span>
-            </span>
-          )}
-          {clientData.phone.length > 14 && (
-            <span className='required'>
-              <span style={{ color: 'green' }}>Telefone celular</span>
-            </span>
-          )}
+          {clientData.phone.length > 5 ? (
+            <div>
+              {clientData.phone.length < 14 && (
+                <span className='required'>
+                <span style={{ color: 'orange' }}>Telefone incompleto</span></span>
+              )}
+              {clientData.phone.length === 14 && (
+                <span className='required'>
+                  <span style={{ color: 'green' }}>Telefone fixo</span>
+                </span>
+              )}
+              {clientData.phone.length > 14 && (
+                <span className='required'>
+                  <span style={{ color: 'green' }}>Telefone celular</span>
+                </span>
+              )}{' '}
+            </div>
+          ) : null}
         </label>
         <label>
           Nome da rua:
@@ -276,8 +281,10 @@ export default function FormDados() {
           Icon={<BsArrowLeft />}
           text={'Voltar'}
         />
+        
         {valorTotal === 0 && <ResumoCompra />}
 
+<div className="wrapper_button">
         {valorTotal === 0 || clientData.phone.length < 14 ? (
           <button
             className='button'
@@ -290,7 +297,7 @@ export default function FormDados() {
             className='button'>
             <BsWhatsapp /> Fazer pedido
           </button>
-        )}
+        )}</div>
       </form>
     </>
   )

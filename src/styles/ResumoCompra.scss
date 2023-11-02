@@ -1,21 +1,27 @@
-.resumo_compra.alert .resumo_compra {
-  border: 1px solid red;
-}
-
 .resumo_compra {
-  margin: 1rem 0;
   width: 90%;
 
   .summary {
-    padding: 1rem;
+    padding-bottom: 1rem;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 0.5rem;
     border: 0px solid rgb(0, 128, 105);
-    border-radius: 5px;
-    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-card);
 
+    .title {
+      display: flex;
+      flex-direction: column;
+      background: var(--primary);
+      color: white;
+      width: 100%;
+      align-items: center;
+      padding: 0.5rem;
+      margin-bottom: .4rem;
+    }
     li {
       list-style: none;
       padding: 0 2px;

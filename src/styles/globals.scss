@@ -8,6 +8,7 @@
   --primary: rgb(211, 49, 0);
   --max-width: 500px;
   --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  --box-shadow-card: 2px 2px 20px rgba(0, 0, 0, 0.062);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -43,8 +44,12 @@ li {
   font-size: 0.8rem;
 }
 
-.error {
-  border: 1px solid #ff000040;
+.wrapper_button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  align-items: center;
 }
 
 body {

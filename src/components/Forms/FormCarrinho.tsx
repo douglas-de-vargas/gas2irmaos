@@ -18,6 +18,7 @@ import { SourceSans3 } from '@/fonts/fonts'
 import { BsDashLg, BsPlusLg } from 'react-icons/bs'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaWeightHanging } from 'react-icons/fa'
+import { MdOutlineProductionQuantityLimits } from 'react-icons/md'
 
 //Components
 import LinkButton from '@/components/Utils/LinkButton'
@@ -72,9 +73,12 @@ export default function FormCarrinho() {
           <div
             key={produto.id}
             className='product_card'>
-            <div style={{ textAlign: 'center' }}>
+            <div className='product_header'>
               <h2>{produto.name.toUpperCase()}</h2>
-              <p style={{ fontSize: '.8rem' }}>{produto.description}</p>
+              <p>
+                <MdOutlineProductionQuantityLimits />
+                {produto.description}
+              </p>
             </div>
 
             <Image
@@ -105,19 +109,21 @@ export default function FormCarrinho() {
 
       <ResumoCompra />
 
-      {valorTotal === 0 ? (
-        <button
-          className='button'
-          disabled>
-          <AiOutlineShoppingCart /> Avançar
-        </button>
-      ) : (
-        <LinkButton
-          to={'/dados'}
-          Icon={<AiOutlineShoppingCart />}
-          text={'Avançar'}
-        />
-      )}
+      <div className='wrapper_button'>
+        {valorTotal === 0 ? (
+          <button
+            className='button'
+            disabled>
+            <AiOutlineShoppingCart /> Avançar
+          </button>
+        ) : (
+          <LinkButton
+            to={'/dados'}
+            Icon={<AiOutlineShoppingCart />}
+            text={'Avançar'}
+          />
+        )}
+      </div>
     </>
   )
 }

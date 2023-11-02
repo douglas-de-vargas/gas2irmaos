@@ -9,13 +9,16 @@ import { useAppState } from '@/contexts/dadosCompra'
 //icons
 import { BsArrowLeft, BsWhatsapp } from 'react-icons/bs'
 
+//Components
+import LinkButton from '@/components/Utils/LinkButton'
+
 type ICustomDialogProps = {
   showDialog: boolean
   onYesClick: () => void
   onNoClick: () => void
 }
 
-export default function CustomDialog ({
+export default function CustomDialog({
   showDialog,
   onYesClick,
   onNoClick
@@ -25,10 +28,9 @@ export default function CustomDialog ({
     <div
       className='custom_dialog'
       style={{ display: showDialog ? 'flex' : 'none' }}>
-      <div className='internal'>
-        <h1 className='center'>Verifique as informações</h1>
-        <div>
-          {' '}
+      <div className='internal_box'>
+        <h3>VERIFIQUE</h3>
+        <div className='data'>
           <p>
             <strong>Cliente:</strong> {clientData.name}
           </p>
@@ -70,7 +72,7 @@ export default function CustomDialog ({
             ))}
           </ul>
         </div>
-        <p className='center'>
+        <p className='total'>
           <strong>
             Total: {formatValues(valorTotal)}
             {' - '}
@@ -83,11 +85,12 @@ export default function CustomDialog ({
             onClick={onNoClick}>
             <BsArrowLeft /> Revisar
           </button>
-          <button
-            className='button'
-            onClick={onYesClick}>
-            <BsWhatsapp /> Avançar
-          </button>
+          <LinkButton
+            to={'/'}
+            onClick={onYesClick}
+            Icon={<BsWhatsapp />}
+            text={'Avançar'}
+          />
         </div>
       </div>
     </div>

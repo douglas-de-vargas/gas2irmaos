@@ -8,6 +8,7 @@ import '@/styles/forms.scss'
 export default function Dados() {
   return (
     <>
+      <FormDados />
       <Image
         className='img-bg'
         src='/fb-bg.jpg'
@@ -16,7 +17,6 @@ export default function Dados() {
         height={1080}
         unoptimized
       />
-      <FormDados />
     </>
   )
 }
