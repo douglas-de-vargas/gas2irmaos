@@ -240,6 +240,7 @@ export default function FormDados() {
               Selecione
             </option>
             <option value='Guaíba/RS'>Guaíba/RS</option>
+            <option value='Eld. do Sul/RS'>Eld. do Sul/RS</option>
           </select>
         </label>
         <label>

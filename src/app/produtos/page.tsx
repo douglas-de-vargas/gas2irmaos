@@ -21,11 +21,11 @@ export default function Pedido() {
       <div className='contact'>
         <div className='contact__phone'>
           <MdPhonelinkRing />
-          (51) 99992-8728
+          (99) 99999-9999
         </div>
         <div className='contact__phone'>
           <MdPhoneInTalk />
-          (51) 3491-5000
+          (99) 9999-9999
         </div>
       </div>
 

@@ -13,14 +13,14 @@ export default function Footer() {
       <div className="footer_container">
         <div className="icons">
           <Link
-            href="https://www.facebook.com/supergasbrasdoisirmaos?mibextid=ZbWKwL"
+            href="#"
             target="_blank"
             passHref
           >
             <BiLogoFacebookSquare />
           </Link>
           <Link
-            href="https://instagram.com/supergasbras.guaiba?igshid=MzRlODBiNWFlZA=="
+            href="#"
             target="_blank"
             passHref
           >
