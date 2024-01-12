@@ -65,6 +65,10 @@ export default function FormDados() {
 
     const maxDigits = 11
 
+    if (/^0/.test(formattedNumber)) {
+    formattedNumber = formattedNumber.slice(1);
+    }
+
     if (formattedNumber.length >= maxDigits) {
       formattedNumber = formattedNumber.slice(0, maxDigits)
     }
