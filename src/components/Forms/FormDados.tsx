@@ -144,7 +144,7 @@ export default function FormDados() {
           Nome:
           <input
             value={clientData.name}
-            placeholder='Nome do cliente'
+            placeholder='Nome'
             name='name'
             onChange={event => handleClientData('name', event.target.value)}
             required

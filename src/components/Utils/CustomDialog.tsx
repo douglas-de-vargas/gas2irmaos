@@ -42,18 +42,7 @@ export default function CustomDialog({
                 textDecoration: 'underline'
               }}>
               {clientData.phone}
-            </span>{' '}
-            -{' '}
-            {clientData.phone.length === 14 && (
-              <span className='required'>
-                <span style={{ color: 'green' }}>TEL. FIXO</span>
-              </span>
-            )}
-            {clientData.phone.length > 14 && (
-              <span className='required'>
-                <span style={{ color: 'green' }}>CELULAR</span>
-              </span>
-            )}
+            </span>
           </p>
           <p>
             <strong>Endereço:</strong> {clientData.street},{' '}
