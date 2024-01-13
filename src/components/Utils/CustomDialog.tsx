@@ -35,7 +35,25 @@ export default function CustomDialog({
             <strong>Cliente:</strong> {clientData.name}
           </p>
           <p>
-            <strong>Contato:</strong> {clientData.phone}
+            <strong>Contato:</strong>{' '}
+            <span
+              style={{
+                color: 'rgb(245, 159, 11)',
+                textDecoration: 'underline'
+              }}>
+              {clientData.phone}
+            </span>{' '}
+            -{' '}
+            {clientData.phone.length === 14 && (
+              <span className='required'>
+                <span style={{ color: 'green' }}>TEL. FIXO</span>
+              </span>
+            )}
+            {clientData.phone.length > 14 && (
+              <span className='required'>
+                <span style={{ color: 'green' }}>CELULAR</span>
+              </span>
+            )}
           </p>
           <p>
             <strong>Endereço:</strong> {clientData.street},{' '}

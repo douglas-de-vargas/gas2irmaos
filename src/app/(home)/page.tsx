@@ -12,7 +12,7 @@ import '@/styles/home.scss'
 
 export default function SuperGas() {
   return (
-    <div className="home">
+    <div className='home'>
       <div>
         <div className='wrapper_img'>
           <Image
@@ -24,14 +24,12 @@ export default function SuperGas() {
         </div>
         <p className='wrapper_initial_text'>
           <strong>Bem-vindo(a)</strong>, você está na central de vendas{' '}
-          <span className='decored_span__primary'>Gás 2 Irmãos</span>,
-          trabalhamos com um atendimento diferenciado para te oferecer o{' '}
-          <span className='decored_span__secondary'>melhor gás</span>,{' '}
+          <span className='decored_span__primary'>Gás 2 Irmãos</span>, onde
+          proporcionamos um atendimento exclusivo para garantir o{' '}
+          <span className='decored_span__secondary'>melhor gás</span> com{' '}
           <span className='decored_span__secondary'>máxima qualidade</span> e{' '}
-          <span className='decored_span__secondary'>preço justo</span>
-          .
-          <br />• Fazer o seu pedido é rápido e simples.
-          <br />• O gás chegará na sua casa em poucos minutos.
+          <span className='decored_span__secondary'>preço justo</span>. Realizar
+          seu pedido é rápido e a entrega é totalmente gratuita.
         </p>
       </div>
       <div className='wrapper_button'>

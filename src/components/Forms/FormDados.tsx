@@ -66,7 +66,7 @@ export default function FormDados() {
     const maxDigits = 11
 
     if (/^0/.test(formattedNumber)) {
-    formattedNumber = formattedNumber.slice(1);
+      formattedNumber = formattedNumber.slice(1)
     }
 
     if (formattedNumber.length >= maxDigits) {
@@ -115,7 +115,7 @@ export default function FormDados() {
     )
     .join('%0A')
   function openWhatsAppLink() {
-    const whatsAppLink = `https://wa.me/${phoneWhatsApp}?text=Olá, eu gostaria de fazer um pedido!%0A%0A*Cliente:*${' '}${
+    const whatsAppLink = `https://wa.me/${phoneWhatsApp}?text=NOVO PEDIDO!%0A%0A*Cliente:*${' '}${
       clientData.name
     }%0A*Contato:*${' '}${clientData.phone}%0A*Endereço:*${' '}${
       clientData.street
@@ -144,7 +144,7 @@ export default function FormDados() {
           Nome:
           <input
             value={clientData.name}
-            placeholder='Nome'
+            placeholder='Nome do cliente'
             name='name'
             onChange={event => handleClientData('name', event.target.value)}
             required
@@ -152,9 +152,7 @@ export default function FormDados() {
         </label>
         <label>
           Telefone de contato:
-          <span style={{ fontSize: '.7rem' }}>
-            • DDD requerido (sem o zero).
-          </span>
+          <span style={{ fontSize: '.7rem' }}>• DDD requerido.</span>
           <input
             value={clientData.phone}
             type='text'
@@ -168,7 +166,8 @@ export default function FormDados() {
             <div>
               {clientData.phone.length < 14 && (
                 <span className='required'>
-                <span style={{ color: 'orange' }}>Telefone incompleto</span></span>
+                  <span style={{ color: 'orange' }}>Telefone incompleto</span>
+                </span>
               )}
               {clientData.phone.length === 14 && (
                 <span className='required'>
@@ -274,7 +273,7 @@ export default function FormDados() {
           <textarea
             value={clientData.additional}
             name='additional'
-            placeholder='Obs'
+            placeholder='Observações adicionais'
             onChange={event =>
               handleClientData('additional', event.target.value)
             }
@@ -286,23 +285,24 @@ export default function FormDados() {
           Icon={<BsArrowLeft />}
           text={'Voltar'}
         />
-        
+
         {valorTotal === 0 && <ResumoCompra />}
 
-<div className="wrapper_button">
-        {valorTotal === 0 || clientData.phone.length < 14 ? (
-          <button
-            className='button'
-            disabled>
-            <BsWhatsapp /> Fazer Pedido
-          </button>
-        ) : (
-          <button
-            type='submit'
-            className='button'>
-            <BsWhatsapp /> Fazer pedido
-          </button>
-        )}</div>
+        <div className='wrapper_button'>
+          {valorTotal === 0 || clientData.phone.length < 14 ? (
+            <button
+              className='button'
+              disabled>
+              <BsWhatsapp /> Fazer Pedido
+            </button>
+          ) : (
+            <button
+              type='submit'
+              className='button'>
+              <BsWhatsapp /> Fazer pedido
+            </button>
+          )}
+        </div>
       </form>
     </>
   )
